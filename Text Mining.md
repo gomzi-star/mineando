@@ -65,9 +65,9 @@ nlp <span class="token operator">=</span> spacy<span class="token punctuation">.
 </li>
 </ul>
 <h1 id="teorico-digamos">Teorico ‘digamos’</h1>
-<p>Ley de Zipf:<br>
+<p><strong>Ley de Zipf:</strong><br>
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Zipf-euro-4_German%2C_Russian%2C_French%2C_Italian%2C_Medieval_English.svg/800px-Zipf-euro-4_German%2C_Russian%2C_French%2C_Italian%2C_Medieval_English.svg.png" alt="Texts in German (1669), Russian (1972), French (1865), Italian (1840), and Medieval English (1460)"><br>
-LN tienen <em><strong>distribucion exponencial</strong></em>,</p>
+Los lenguajes naturales (LN) tienen <em><strong>distribucion exponencial</strong></em></p>
 <blockquote>
 <p>Parametros parecidos para cualquier lenguaje!!!</p>
 </blockquote>
