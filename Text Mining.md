@@ -4,6 +4,7 @@
 ---
 
 <h1 id="spacy">Spacy</h1>
+<p>At the center of spaCy is the object containing the processing pipeline. We usually call this variable “nlp”.</p>
 <pre class=" language-python"><code class="prism  language-python"><span class="token comment"># Import spaCy</span>
 <span class="token keyword">import</span> spacy
 <span class="token comment"># Create a blank English nlp object</span>
@@ -13,7 +14,10 @@ doc <span class="token operator">=</span> nlp<span class="token punctuation">(</
 </code></pre>
 <p><code>is_alpha</code>, <code>is_punct</code> and <code>like_num</code> return boolean values indicating whether the token consists of alphabetic characters, whether it’s punctuation or whether it <em>resembles</em> a number.</p>
 <p>The index of a token in the <code>doc</code> is <code>token.i</code></p>
-<pre class=" language-python"><code class="prism  language-python"><span class="token comment">#Load the small English pipeline </span>
+<hr>
+<p>spaCy provides a number of trained pipeline packages you can download using the <code>spacy download</code> command.</p>
+<pre class=" language-python"><code class="prism  language-python">$ python <span class="token operator">-</span>m spacy download en_core_web_sm
+<span class="token comment">#Load the small English pipeline </span>
 nlp <span class="token operator">=</span> spacy<span class="token punctuation">.</span>load<span class="token punctuation">(</span><span class="token string">"en_core_web_sm"</span><span class="token punctuation">)</span>
 </code></pre>
 <p>For each token in the doc, we can print the text and the <code>.pos_</code> attribute, the predicted part-of-speech tag.</p>
