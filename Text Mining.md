@@ -4,6 +4,8 @@
 ---
 
 <h1 id="spacy">Spacy</h1>
+<h2 id="section">1.1</h2>
+<h3 id="the-nlp-object">The nlp object</h3>
 <p>At the center of spaCy is the object containing the processing pipeline. We usually call this variable “nlp”.</p>
 <p>For example, to create an English  <code>nlp</code>  object, you can import  <code>spacy</code>  and use the  <code>spacy.blank</code>  method to create a blank English pipeline. You can use the  <code>nlp</code>  object like a function to analyze text.</p>
 <p>It contains all the different components in the pipeline.</p>
@@ -15,6 +17,7 @@ nlp <span class="token operator">=</span> spacy<span class="token punctuation">.
 <span class="token comment"># Created by processing a string of text with the nlp object </span>
 doc <span class="token operator">=</span> nlp<span class="token punctuation">(</span><span class="token string">"Hello world!"</span><span class="token punctuation">)</span>
 </code></pre>
+<h3 id="the-doc-object">The doc object</h3>
 <p>When you process a text with the  <code>nlp</code>  object, spaCy creates a  <code>doc</code>  object – short for “document”. The doc lets you access information about the text in a structured way, and no information is lost.</p>
 <pre class=" language-python"><code class="prism  language-python"><span class="token comment"># Created by processing a string of text with the nlp object </span>
 doc <span class="token operator">=</span> nlp<span class="token punctuation">(</span><span class="token string">"Hello world!"</span><span class="token punctuation">)</span>  
@@ -27,6 +30,7 @@ doc <span class="token operator">=</span> nlp<span class="token punctuation">(</
 world
 !
 </code></pre>
+<h3 id="the-token-object">The token object</h3>
 <p><code>token</code>  objects represent the tokens in a document – for example, a word or a punctuation character.</p>
 <p>To get a token at a specific position, you can index into the doc.</p>
 <p><code>token</code>  objects also provide various attributes that let you access more information about the tokens. For example, the  <code>.text</code>  attribute returns the verbatim token text.</p>
@@ -65,7 +69,6 @@ span <span class="token operator">=</span> doc<span class="token punctuation">[<
 <p><strong>out</strong></p>
 <pre><code>Index:    [0, 1, 2, 3, 4]
 Text:     ['It', 'costs', '$', '5', '.']
-
 is_alpha: [True, True, False, False, False]
 is_punct: [False, False, False, False, True]
 like_num: [False, False, False, True, False]
