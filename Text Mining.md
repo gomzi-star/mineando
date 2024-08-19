@@ -195,8 +195,8 @@ pizza NOUN dobj ate
 <p>To describe syntactic dependencies, spaCy uses a standardized label scheme. Here’s an example of some common labels:</p>
 <p>The pronoun “She” is a nominal subject attached to the verb – in this case, to “ate”.</p>
 <p>The noun “pizza” is a direct object attached to the verb “ate”. It is eaten by the subject, “she”.</p>
-<p>The determiner “the”, also known as an article, is attached to the noun “pizza”.<br>
-<img src="https://course.spacy.io/dep_example.png" alt="Visualization of the dependency graph for 'She ate the pizza'"></p>
+<p>The determiner “the”, also known as an article, is attached to the noun “pizza”.</p>
+<p><img src="https://course.spacy.io/dep_example.png" alt="Visualization of the dependency graph for 'She ate the pizza'"></p>
 <h3 id="predicting-named-entities">Predicting Named Entities</h3>
 <p>Named entities are “real world objects” that are assigned a name – for example, a person, an organization or a country.</p>
 <p>The  <code>doc.ents</code>  property lets you access the <em><strong>named entities</strong></em> predicted by the named entity recognition model.</p>
@@ -255,13 +255,16 @@ $1 billion MONEY
 <p>We can even write patterns using attributes predicted by a model. Here, we’re matching a token with the lemma “buy”, plus a noun. The lemma is the base form, so this pattern would match phrases like “buying milk” or “bought flowers”.</p>
 <pre class=" language-python"><code class="prism  language-python"><span class="token punctuation">[</span><span class="token punctuation">{</span><span class="token string">"LEMMA"</span><span class="token punctuation">:</span> <span class="token string">"buy"</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token string">"POS"</span><span class="token punctuation">:</span> <span class="token string">"NOUN"</span><span class="token punctuation">}</span><span class="token punctuation">]</span>
 </code></pre>
-<h3 id="using-the-matcher-1">Using the Matcher (1)</h3>
+<h3 id="using-the-matcher">Using the Matcher</h3>
 <p>To use a pattern, we first <em><strong>import the matcher</strong></em> from  <code>spacy.matcher</code>.</p>
 <p>We also load a pipeline and create the  <code>nlp</code>  object.</p>
 <p>The matcher is <em><strong>initialized with the shared vocabulary</strong></em>,  <code>nlp.vocab</code>. You’ll learn more about this later – for now, just remember to always pass it in.</p>
-<p>The  <code>matcher.add</code>  method lets you <em><strong>add a pattern</strong></em>. The first argument is a unique ID to identify which pattern was matched. The second argument is a list of patterns.</p>
+<p>The  <code>matcher.add</code>  method lets you <mark><em><strong>add a pattern</strong></em></mark>. The first argument is a unique ID to identify which pattern was matched. The second argument is a list of patterns.</p>
 <p>To match the pattern on a text, we can call the matcher on any doc.</p>
 <p>This will return the matches.</p>
+<p>When you call the matcher on a doc, it returns a list of tuples.</p>
+<p>Each tuple consists of three values: the <em><strong>match ID</strong></em>, the <em><strong>start index</strong></em> and the <em><strong>end index</strong></em> of the matched span.</p>
+<p>This means we can iterate over the matches and create a  <code>Span</code>  object: a slice of the doc at the start and end index.</p>
 <pre class=" language-python"><code class="prism  language-python"><span class="token keyword">import</span> spacy
 <span class="token comment"># Import the Matcher</span>
 <span class="token keyword">from</span> spacy<span class="token punctuation">.</span>matcher <span class="token keyword">import</span> Matcher
@@ -276,5 +279,71 @@ matcher<span class="token punctuation">.</span>add<span class="token punctuation
 doc <span class="token operator">=</span> nlp<span class="token punctuation">(</span><span class="token string">"Upcoming iPhone X release date leaked"</span><span class="token punctuation">)</span>
 <span class="token comment"># Call the matcher on the doc</span>
 matches <span class="token operator">=</span> matcher<span class="token punctuation">(</span>doc<span class="token punctuation">)</span>
+<span class="token comment"># Iterate over the matches  </span>
+<span class="token keyword">for</span> match_id<span class="token punctuation">,</span> start<span class="token punctuation">,</span> end <span class="token keyword">in</span> matches<span class="token punctuation">:</span>  
+	<span class="token comment"># Get the matched span </span>
+	matched_span <span class="token operator">=</span> doc<span class="token punctuation">[</span>start<span class="token punctuation">:</span>end<span class="token punctuation">]</span>  
+	<span class="token keyword">print</span><span class="token punctuation">(</span>matched_span<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
 </code></pre>
+<p><strong>out</strong></p>
+<pre class=" language-out"><code class="prism  language-out">iPhone X
+</code></pre>
+<h3 id="matching-lexical-attributes">Matching lexical attributes</h3>
+<p>Here’s an example of a more complex pattern using lexical attributes.</p>
+<p>We’re looking for five tokens:</p>
+<p>A token consisting of only digits.</p>
+<p>Three case-insensitive tokens for “fifa”, “world” and “cup”.</p>
+<p>And a token that consists of punctuation.</p>
+<p>The pattern matches the tokens “2018 FIFA World Cup:”.</p>
+<pre class=" language-python"><code class="prism  language-python">pattern <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span><span class="token string">"IS_DIGIT"</span><span class="token punctuation">:</span> <span class="token boolean">True</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span><span class="token string">"LOWER"</span><span class="token punctuation">:</span> <span class="token string">"fifa"</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span><span class="token string">"LOWER"</span><span class="token punctuation">:</span> <span class="token string">"world"</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span><span class="token string">"LOWER"</span><span class="token punctuation">:</span> <span class="token string">"cup"</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span><span class="token string">"IS_PUNCT"</span><span class="token punctuation">:</span> <span class="token boolean">True</span><span class="token punctuation">}</span>
+<span class="token punctuation">]</span>
+</code></pre>
+<pre class=" language-python"><code class="prism  language-python">doc <span class="token operator">=</span> nlp<span class="token punctuation">(</span><span class="token string">"2018 FIFA World Cup: France won!"</span><span class="token punctuation">)</span>
+</code></pre>
+<p><strong>out</strong></p>
+<pre class=" language-out"><code class="prism  language-out">2018 FIFA World Cup:
+</code></pre>
+<h3 id="matching-other-token-attributes">Matching other token attributes</h3>
+<p>In this example, we’re looking for two tokens:</p>
+<p>A verb with the lemma “love”, followed by a noun.</p>
+<p>This pattern will match “loved dogs” and “love cats”</p>
+<pre class=" language-python"><code class="prism  language-python">pattern <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span><span class="token string">"LEMMA"</span><span class="token punctuation">:</span> <span class="token string">"love"</span><span class="token punctuation">,</span> <span class="token string">"POS"</span><span class="token punctuation">:</span> <span class="token string">"VERB"</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span><span class="token string">"POS"</span><span class="token punctuation">:</span> <span class="token string">"NOUN"</span><span class="token punctuation">}</span>
+<span class="token punctuation">]</span>
+</code></pre>
+<pre class=" language-python"><code class="prism  language-python">doc <span class="token operator">=</span> nlp<span class="token punctuation">(</span><span class="token string">"I loved dogs but now I love cats more."</span><span class="token punctuation">)</span>
+</code></pre>
+<p><strong>out</strong></p>
+<pre class=" language-out"><code class="prism  language-out">loved dogs
+love cats
+</code></pre>
+<h3 id="using-operators-and-quantifiers">Using operators and quantifiers</h3>
+<p>Operators and quantifiers let you define how often a token should be matched. They can be added using the “OP” key.</p>
+<p>Here, the “?” operator makes the determiner token optional, so it will match a token with the lemma “buy”, an optional article and a noun.</p>
+<pre class=" language-python"><code class="prism  language-python">pattern <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span><span class="token string">"LEMMA"</span><span class="token punctuation">:</span> <span class="token string">"buy"</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span><span class="token string">"POS"</span><span class="token punctuation">:</span> <span class="token string">"DET"</span><span class="token punctuation">,</span> <span class="token string">"OP"</span><span class="token punctuation">:</span> <span class="token string">"?"</span><span class="token punctuation">}</span><span class="token punctuation">,</span>  <span class="token comment"># optional: match 0 or 1 times</span>
+    <span class="token punctuation">{</span><span class="token string">"POS"</span><span class="token punctuation">:</span> <span class="token string">"NOUN"</span><span class="token punctuation">}</span>
+<span class="token punctuation">]</span>
+</code></pre>
+<pre class=" language-python"><code class="prism  language-python">doc <span class="token operator">=</span> nlp<span class="token punctuation">(</span><span class="token string">"I bought a smartphone. Now I'm buying apps."</span><span class="token punctuation">)</span>
+</code></pre>
+<p><strong>out</strong></p>
+<pre class=" language-out"><code class="prism  language-out">bought a smartphone
+buying apps
+</code></pre>
+<p>“OP” can have one of four values:</p>
+<ul>
+<li><code>{"OP": "!"}</code> negates the token, so it’s matched 0 times.</li>
+<li><code>{"OP": "?"}</code> makes the token optional, and matches it 0 or 1 times.</li>
+<li><code>{"OP": "+"}</code> matches a token 1 or more times.</li>
+<li><code>{"OP": "*"}</code> matches 0 or more times.</li>
+</ul>
+<p>Operators can make your patterns a lot more powerful, but they also add more complexity – so use them wisely.</p>
 
