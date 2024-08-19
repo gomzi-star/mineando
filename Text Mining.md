@@ -3,6 +3,60 @@
 
 ---
 
+<h1 id="teorico-digamos">Teorico ‘digamos’</h1>
+<p><strong>Ley de Zipf:</strong><br>
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Zipf-euro-4_German%2C_Russian%2C_French%2C_Italian%2C_Medieval_English.svg/800px-Zipf-euro-4_German%2C_Russian%2C_French%2C_Italian%2C_Medieval_English.svg.png" alt="Texts in German (1669), Russian (1972), French (1865), Italian (1840), and Medieval English (1460)"><br>
+Los lenguajes naturales (LN) tienen <em><strong>distribucion exponencial</strong></em></p>
+<blockquote>
+<p>Parametros parecidos para cualquier lenguaje!!!</p>
+</blockquote>
+<h1 id="practico">Practico</h1>
+<p>Ver: <a href="https://medium.com/nlplanet/two-minutes-nlp-21-learning-resources-for-text-classification-b6f9c43793e1">Two minutes NLP — 21 Learning Resources for Text Classification</a></p>
+<p><strong>Preprocesado:</strong></p>
+<ul>
+<li>
+<p>Encoding (ntenatar unificar)</p>
+</li>
+<li>
+<p>Tokenizar (spacy, nltk)</p>
+</li>
+<li>
+<p>Expresiones multipalabra (spacy, nltk)</p>
+<blockquote>
+<p>se hace a mano, es muy costoso sino</p>
+</blockquote>
+</li>
+<li>
+<p>Variantes de palabras</p>
+<ul>
+<li>pasar a minuscula,</li>
+<li>recetitas varias</li>
+<li>analisi morfologico</li>
+<li>typos</li>
+</ul>
+<blockquote>
+<p>nombres propios tratados en espresiones multipalabra</p>
+</blockquote>
+</li>
+<li>
+<p>Subconjunstos de palabras</p>
+<blockquote>
+<p>podemos eliminar el pico y/o la colita de la distribucion</p>
+</blockquote>
+</li>
+<li>
+<p>Numeros, frecuencias, stopwords</p>
+<p><em><strong>Todos estos pasos deben ser reproducibles!</strong></em></p>
+</li>
+</ul>
+<p><strong>Vectorizacion</strong></p>
+<ul>
+<li><em>Bag of Words</em> (Naive): Cada palabra es una columna, por fila (tweets, oraciones, texto) se cuenta la cantidad de veces que aparece cada palabra (en su respectiva columna).
+<blockquote>
+<p>Contra: Muy sparse, podemos mejorarlo intentando eliminar la cola de la distribucion,  o eliminando palabras distribuidas uniformemente.</p>
+</blockquote>
+</li>
+</ul>
 <h1 id="spacy">Spacy</h1>
 <h2 id="intro">Intro</h2>
 <h3 id="the-nlp-object">The nlp object</h3>
@@ -137,61 +191,90 @@ ate VERB ROOT ate
 the DET det pizza
 pizza NOUN dobj ate
 </code></pre>
-<h1 id="practico">Practico</h1>
-<p>Ver: <a href="https://medium.com/nlplanet/two-minutes-nlp-21-learning-resources-for-text-classification-b6f9c43793e1">Two minutes NLP — 21 Learning Resources for Text Classification</a></p>
-<p><strong>Preprocesado:</strong></p>
-<ul>
-<li>
-<p>Encoding (ntenatar unificar)</p>
-</li>
-<li>
-<p>Tokenizar (spacy, nltk)</p>
-</li>
-<li>
-<p>Expresiones multipalabra (spacy, nltk)</p>
+<h3 id="dependency-label-scheme">Dependency label scheme</h3>
+<p>To describe syntactic dependencies, spaCy uses a standardized label scheme. Here’s an example of some common labels:</p>
+<p>The pronoun “She” is a nominal subject attached to the verb – in this case, to “ate”.</p>
+<p>The noun “pizza” is a direct object attached to the verb “ate”. It is eaten by the subject, “she”.</p>
+<p>The determiner “the”, also known as an article, is attached to the noun “pizza”.<br>
+<img src="https://course.spacy.io/dep_example.png" alt="Visualization of the dependency graph for 'She ate the pizza'"></p>
+<h3 id="predicting-named-entities">Predicting Named Entities</h3>
+<p>Named entities are “real world objects” that are assigned a name – for example, a person, an organization or a country.</p>
+<p>The  <code>doc.ents</code>  property lets you access the <em><strong>named entities</strong></em> predicted by the named entity recognition model.</p>
+<p>It returns an iterator of  <code>span</code>  objects, so we can print the entity text and the <em><strong>entity label</strong></em> using the  <code>.label_</code>  attribute.</p>
+<p>In this case, the model is correctly predicting “Apple” as an organization, “U.K.” as a geopolitical entity and “$1 billion” as money.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token comment"># Process a text</span>
+doc <span class="token operator">=</span> nlp<span class="token punctuation">(</span><span class="token string">"Apple is looking at buying U.K. startup for $1 billion"</span><span class="token punctuation">)</span>
+<span class="token comment"># Iterate over the predicted entities</span>
+<span class="token keyword">for</span> ent <span class="token keyword">in</span> doc<span class="token punctuation">.</span>ents<span class="token punctuation">:</span>
+    <span class="token comment"># Print the entity text and its label</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>ent<span class="token punctuation">.</span>text<span class="token punctuation">,</span> ent<span class="token punctuation">.</span>label_<span class="token punctuation">)</span>
+</code></pre>
+<p><strong>out</strong></p>
+<pre class=" language-out"><code class="prism  language-out">Apple ORG
+U.K. GPE
+$1 billion MONEY
+</code></pre>
+<h3 id="tip-the-spacy.explain-method">Tip: the spacy.explain method</h3>
+<p>A quick tip: To get definitions for the most common tags and labels, you can use the  <code>spacy.explain</code>  helper function.</p>
+<p>For example, “GPE” for geopolitical entity isn’t exactly intuitive – but  <code>spacy.explain</code>  can tell you that it refers to countries, cities and states.</p>
+<p>The same works for part-of-speech tags and dependency labels.</p>
+<pre class=" language-python"><code class="prism  language-python">spacy<span class="token punctuation">.</span>explain<span class="token punctuation">(</span><span class="token string">"GPE"</span><span class="token punctuation">)</span>
+</code></pre>
+<p><strong>out</strong></p>
+<pre class=" language-out"><code class="prism  language-out">'Countries, cities, states'
+</code></pre>
+<hr>
+<pre class=" language-python"><code class="prism  language-python">spacy<span class="token punctuation">.</span>explain<span class="token punctuation">(</span><span class="token string">"NNP"</span><span class="token punctuation">)</span>
+</code></pre>
+<p><strong>out</strong></p>
+<pre class=" language-out"><code class="prism  language-out">'noun, proper singular'
+</code></pre>
+<hr>
+<pre class=" language-python"><code class="prism  language-python">spacy<span class="token punctuation">.</span>explain<span class="token punctuation">(</span><span class="token string">"dobj"</span><span class="token punctuation">)</span>
+</code></pre>
+<p><strong>out</strong></p>
+<pre class=" language-out"><code class="prism  language-out">'direct object'
+</code></pre>
+<h2 id="rule-based-matching">Rule-based matching</h2>
+<p><strong>Why not just regular expressions?</strong></p>
+<p>Compared to regular expressions, the matcher works with  <code>Doc</code>  and  <code>Token</code>  objects instead of only strings.</p>
+<p>It’s also more flexible: you can search for texts but also other lexical attributes.</p>
+<p>You can even write rules that use a model’s predictions.</p>
+<p>For example, find the word “duck” only if it’s a verb, not a noun.</p>
+<h3 id="match-patterns">Match patterns</h3>
+<p>Match patterns are lists of dictionaries. Each dictionary describes one token. The keys are the names of token attributes, mapped to their expected values.</p>
 <blockquote>
-<p>se hace a mano, es muy costoso sino</p>
+<p>Lists of dictionaries, one per token</p>
 </blockquote>
-</li>
-<li>
-<p>Variantes de palabras</p>
-<ul>
-<li>pasar a minuscula,</li>
-<li>recetitas varias</li>
-<li>analisi morfologico</li>
-<li>typos</li>
-</ul>
-<blockquote>
-<p>nombres propios tratados en espresiones multipalabra</p>
-</blockquote>
-</li>
-<li>
-<p>Subconjunstos de palabras</p>
-<blockquote>
-<p>podemos eliminar el pico y/o la colita de la distribucion</p>
-</blockquote>
-</li>
-<li>
-<p>Numeros, frecuencias, stopwords</p>
-<p><em><strong>Todos estos pasos deben ser reproducibles!</strong></em></p>
-</li>
-</ul>
-<p><strong>Vectorizacion</strong></p>
-<ul>
-<li><em>Bag of Words</em> (Naive): Cada palabra es una columna, por fila (tweets, oraciones, texto) se cuenta la cantidad de veces que aparece cada palabra (en su respectiva columna).
-<blockquote>
-<p>Contra: Muy sparse, podemos mejorarlo intentando eliminar la cola de la distribucion,  o eliminando palabras distribuidas uniformemente.</p>
-</blockquote>
-</li>
-</ul>
-<h1 id="teorico-digamos">Teorico ‘digamos’</h1>
-<p><strong>Ley de Zipf:</strong><br>
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Zipf-euro-4_German%2C_Russian%2C_French%2C_Italian%2C_Medieval_English.svg/800px-Zipf-euro-4_German%2C_Russian%2C_French%2C_Italian%2C_Medieval_English.svg.png" alt="Texts in German (1669), Russian (1972), French (1865), Italian (1840), and Medieval English (1460)"><br>
-Los lenguajes naturales (LN) tienen <em><strong>distribucion exponencial</strong></em></p>
-<blockquote>
-<p>Parametros parecidos para cualquier lenguaje!!!</p>
-</blockquote>
-<blockquote>
-<p>Written with <a href="https://stackedit.io/">StackEdit</a>.</p>
-</blockquote>
+<p>In this example, we’re looking for two tokens with the text “iPhone” and “X”.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token punctuation">[</span><span class="token punctuation">{</span><span class="token string">"TEXT"</span><span class="token punctuation">:</span> <span class="token string">"iPhone"</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token string">"TEXT"</span><span class="token punctuation">:</span> <span class="token string">"X"</span><span class="token punctuation">}</span><span class="token punctuation">]</span>
+</code></pre>
+<p>We can also match on other token attributes. Here, we’re looking for two tokens whose lowercase forms equal “iphone” and “x”.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token punctuation">[</span><span class="token punctuation">{</span><span class="token string">"LOWER"</span><span class="token punctuation">:</span> <span class="token string">"iphone"</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token string">"LOWER"</span><span class="token punctuation">:</span> <span class="token string">"x"</span><span class="token punctuation">}</span><span class="token punctuation">]</span>
+</code></pre>
+<p>We can even write patterns using attributes predicted by a model. Here, we’re matching a token with the lemma “buy”, plus a noun. The lemma is the base form, so this pattern would match phrases like “buying milk” or “bought flowers”.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token punctuation">[</span><span class="token punctuation">{</span><span class="token string">"LEMMA"</span><span class="token punctuation">:</span> <span class="token string">"buy"</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token string">"POS"</span><span class="token punctuation">:</span> <span class="token string">"NOUN"</span><span class="token punctuation">}</span><span class="token punctuation">]</span>
+</code></pre>
+<h3 id="using-the-matcher-1">Using the Matcher (1)</h3>
+<p>To use a pattern, we first <em><strong>import the matcher</strong></em> from  <code>spacy.matcher</code>.</p>
+<p>We also load a pipeline and create the  <code>nlp</code>  object.</p>
+<p>The matcher is <em><strong>initialized with the shared vocabulary</strong></em>,  <code>nlp.vocab</code>. You’ll learn more about this later – for now, just remember to always pass it in.</p>
+<p>The  <code>matcher.add</code>  method lets you <em><strong>add a pattern</strong></em>. The first argument is a unique ID to identify which pattern was matched. The second argument is a list of patterns.</p>
+<p>To match the pattern on a text, we can call the matcher on any doc.</p>
+<p>This will return the matches.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">import</span> spacy
+<span class="token comment"># Import the Matcher</span>
+<span class="token keyword">from</span> spacy<span class="token punctuation">.</span>matcher <span class="token keyword">import</span> Matcher
+<span class="token comment"># Load a pipeline and create the nlp object</span>
+nlp <span class="token operator">=</span> spacy<span class="token punctuation">.</span>load<span class="token punctuation">(</span><span class="token string">"en_core_web_sm"</span><span class="token punctuation">)</span>
+<span class="token comment"># Initialize the matcher with the shared vocab</span>
+matcher <span class="token operator">=</span> Matcher<span class="token punctuation">(</span>nlp<span class="token punctuation">.</span>vocab<span class="token punctuation">)</span>
+<span class="token comment"># Add the pattern to the matcher</span>
+pattern <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span><span class="token string">"TEXT"</span><span class="token punctuation">:</span> <span class="token string">"iPhone"</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token string">"TEXT"</span><span class="token punctuation">:</span> <span class="token string">"X"</span><span class="token punctuation">}</span><span class="token punctuation">]</span>
+matcher<span class="token punctuation">.</span>add<span class="token punctuation">(</span><span class="token string">"IPHONE_PATTERN"</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>pattern<span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment"># Process some text</span>
+doc <span class="token operator">=</span> nlp<span class="token punctuation">(</span><span class="token string">"Upcoming iPhone X release date leaked"</span><span class="token punctuation">)</span>
+<span class="token comment"># Call the matcher on the doc</span>
+matches <span class="token operator">=</span> matcher<span class="token punctuation">(</span>doc<span class="token punctuation">)</span>
+</code></pre>
 
