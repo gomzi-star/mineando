@@ -10,6 +10,8 @@ Los lenguajes naturales (LN) tienen <em><strong>distribucion exponencial</strong
 <blockquote>
 <p>Parametros parecidos para cualquier lenguaje!!!</p>
 </blockquote>
+<hr>
+<hr>
 <h1 id="practico">Practico</h1>
 <p>Ver: <a href="https://medium.com/nlplanet/two-minutes-nlp-21-learning-resources-for-text-classification-b6f9c43793e1">Two minutes NLP — 21 Learning Resources for Text Classification</a></p>
 <p><strong>Preprocesado:</strong></p>
