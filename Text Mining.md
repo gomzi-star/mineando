@@ -22,7 +22,7 @@ doc <span class="token operator">=</span> nlp<span class="token punctuation">(</
 <span class="token keyword">for</span> token <span class="token keyword">in</span> doc<span class="token punctuation">:</span>  
 	<span class="token keyword">print</span><span class="token punctuation">(</span>token<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
 </code></pre>
-<p><em><strong>output</strong></em></p>
+<p><strong>out</strong></p>
 <pre><code>Hello
 world
 !
@@ -31,32 +31,45 @@ world
 <p>To get a token at a specific position, you can index into the doc.</p>
 <p><code>token</code>  objects also provide various attributes that let you access more information about the tokens. For example, the  <code>.text</code>  attribute returns the verbatim token text.</p>
 <pre class=" language-python"><code class="prism  language-python">doc <span class="token operator">=</span> nlp<span class="token punctuation">(</span><span class="token string">"Hello world!"</span><span class="token punctuation">)</span>
-
 <span class="token comment"># Index into the Doc to get a single Token</span>
 token <span class="token operator">=</span> doc<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
 <span class="token comment"># Get the token text via the .text attribute</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>token<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
 </code></pre>
-<p><strong>output</strong></p>
+<p><strong>out</strong></p>
 <pre><code>world
 </code></pre>
 <p>A  <code>span</code>  object is a slice of the document consisting of one or more tokens. It’s only a view of the  <code>doc</code>  and doesn’t contain any data itself.</p>
 <p>To create a span, you can use Python’s slice notation. For example,  <code>1:3</code>  will create a slice starting from the token at position 1, up to – <em><strong>but not including!</strong></em> – the token at position 3.</p>
 <pre class=" language-python"><code class="prism  language-python">doc <span class="token operator">=</span> nlp<span class="token punctuation">(</span><span class="token string">"Hello world!"</span><span class="token punctuation">)</span>
-
 <span class="token comment"># A slice from the Doc is a Span object</span>
 span <span class="token operator">=</span> doc<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token number">3</span><span class="token punctuation">]</span>
-
 <span class="token comment"># Get the span text via the .text attribute</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>span<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
 </code></pre>
-<p><strong>output</strong></p>
+<p><strong>out</strong></p>
 <pre><code>world!
 </code></pre>
 <p><code>i</code>  is the index of the token within the parent document.</p>
 <p><code>text</code>  returns the token text.</p>
 <p><code>is_alpha</code>,  <code>is_punct</code>  and  <code>like_num</code>  return boolean values indicating whether the token consists of alphabetic characters, whether it’s punctuation or whether it  <em>resembles</em>  a number.</p>
-<p>The index of a token in the <code>doc</code> is <code>token.i</code></p>
+<p>These attributes are also called lexical attributes: they refer to the entry in the vocabulary and don’t depend on the token’s context.</p>
+<pre class=" language-python"><code class="prism  language-python">doc <span class="token operator">=</span> nlp<span class="token punctuation">(</span><span class="token string">"It costs $5."</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Index:   "</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>token<span class="token punctuation">.</span>i <span class="token keyword">for</span> token <span class="token keyword">in</span> doc<span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Text:    "</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>token<span class="token punctuation">.</span>text <span class="token keyword">for</span> token <span class="token keyword">in</span> doc<span class="token punctuation">]</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"is_alpha:"</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>token<span class="token punctuation">.</span>is_alpha <span class="token keyword">for</span> token <span class="token keyword">in</span> doc<span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"is_punct:"</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>token<span class="token punctuation">.</span>is_punct <span class="token keyword">for</span> token <span class="token keyword">in</span> doc<span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"like_num:"</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>token<span class="token punctuation">.</span>like_num <span class="token keyword">for</span> token <span class="token keyword">in</span> doc<span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre>
+<p><strong>out</strong></p>
+<pre><code>Index:    [0, 1, 2, 3, 4]
+Text:     ['It', 'costs', '$', '5', '.']
+
+is_alpha: [True, True, False, False, False]
+is_punct: [False, False, False, False, True]
+like_num: [False, False, False, True, False]
+</code></pre>
 <hr>
 <p>spaCy provides a number of trained pipeline packages you can download using the <code>spacy download</code> command.</p>
 <pre class=" language-python"><code class="prism  language-python">$ python <span class="token operator">-</span>m spacy download en_core_web_sm
