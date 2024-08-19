@@ -5,11 +5,9 @@
 
 <h1 id="spacy">Spacy</h1>
 <pre class=" language-python"><code class="prism  language-python"><span class="token comment"># Import spaCy</span>
-<span class="token keyword">import</span> spacy <span class="token keyword">as</span> sp
-
+<span class="token keyword">import</span> spacy
 <span class="token comment"># Create a blank English nlp object</span>
 nlp <span class="token operator">=</span> spacy<span class="token punctuation">.</span>blank<span class="token punctuation">(</span><span class="token string">"en"</span><span class="token punctuation">)</span>
-
 <span class="token comment"># Created by processing a string of text with the nlp object </span>
 doc <span class="token operator">=</span> nlp<span class="token punctuation">(</span><span class="token string">"Hello world!"</span><span class="token punctuation">)</span>
 </code></pre>
@@ -24,19 +22,19 @@ nlp <span class="token operator">=</span> spacy<span class="token punctuation">.
 <p><strong>Preprocesado:</strong></p>
 <ul>
 <li>
-<p>encoding (ntenatar unificar)</p>
+<p>Encoding (ntenatar unificar)</p>
 </li>
 <li>
-<p>tokenizar (spacy, nltk)</p>
+<p>Tokenizar (spacy, nltk)</p>
 </li>
 <li>
-<p>expresiones multipalabra (spacy, nltk)</p>
+<p>Expresiones multipalabra (spacy, nltk)</p>
 <blockquote>
 <p>se hace a mano, es muy costoso sino</p>
 </blockquote>
 </li>
 <li>
-<p>variantes de palabras</p>
+<p>Variantes de palabras</p>
 <ul>
 <li>pasar a minuscula,</li>
 <li>recetitas varias</li>
@@ -48,16 +46,16 @@ nlp <span class="token operator">=</span> spacy<span class="token punctuation">.
 </blockquote>
 </li>
 <li>
-<p>subconjunstos de palabras</p>
+<p>Subconjunstos de palabras</p>
 <blockquote>
 <p>podemos eliminar el pico y/o la colita de la distribucion</p>
 </blockquote>
 </li>
 <li>
-<p>numeros, frecuencias, stopwords</p>
+<p>Numeros, frecuencias, stopwords</p>
+<p><em><strong>Todos estos pasos deben ser reproducibles!</strong></em></p>
 </li>
 </ul>
-<p>Todos estos pasos deben ser reproducibles!</p>
 <p><strong>Vectorizacion</strong></p>
 <ul>
 <li><em>Bag of Words</em> (Naive): Cada palabra es una columna, por fila (tweets, oraciones, texto) se cuenta la cantidad de veces que aparece cada palabra (en su respectiva columna).
@@ -69,7 +67,10 @@ nlp <span class="token operator">=</span> spacy<span class="token punctuation">.
 <h1 id="teorico-digamos">Teorico ‘digamos’</h1>
 <p>Ley de Zipf:<br>
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Zipf-euro-4_German%2C_Russian%2C_French%2C_Italian%2C_Medieval_English.svg/800px-Zipf-euro-4_German%2C_Russian%2C_French%2C_Italian%2C_Medieval_English.svg.png" alt="Texts in German (1669), Russian (1972), French (1865), Italian (1840), and Medieval English (1460)"><br>
-LN tienen distribucion exponencial, parametros parecidos para cualquier lenguaje!!!</p>
+LN tienen <em><strong>distribucion exponencial</strong></em>,</p>
+<blockquote>
+<p>Parametros parecidos para cualquier lenguaje!!!</p>
+</blockquote>
 <blockquote>
 <p>Written with <a href="https://stackedit.io/">StackEdit</a>.</p>
 </blockquote>
