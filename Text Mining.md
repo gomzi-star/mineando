@@ -6,8 +6,10 @@
 <h1 id="spacy">Spacy</h1>
 <pre class=" language-python"><code class="prism  language-python"><span class="token comment"># Import spaCy</span>
 <span class="token keyword">import</span> spacy <span class="token keyword">as</span> sp
+
 <span class="token comment"># Create a blank English nlp object</span>
 nlp <span class="token operator">=</span> spacy<span class="token punctuation">.</span>blank<span class="token punctuation">(</span><span class="token string">"en"</span><span class="token punctuation">)</span>
+
 <span class="token comment"># Created by processing a string of text with the nlp object </span>
 doc <span class="token operator">=</span> nlp<span class="token punctuation">(</span><span class="token string">"Hello world!"</span><span class="token punctuation">)</span>
 </code></pre>
