@@ -4,7 +4,7 @@
 ---
 
 <h1 id="spacy">Spacy</h1>
-<h2 id="section">1.1</h2>
+<h2 id="intro">Intro</h2>
 <h3 id="the-nlp-object">The nlp object</h3>
 <p>At the center of spaCy is the object containing the processing pipeline. We usually call this variable “nlp”.</p>
 <p>For example, to create an English  <code>nlp</code>  object, you can import  <code>spacy</code>  and use the  <code>spacy.blank</code>  method to create a blank English pipeline. You can use the  <code>nlp</code>  object like a function to analyze text.</p>
@@ -43,6 +43,7 @@ token <span class="token operator">=</span> doc<span class="token punctuation">[
 <p><strong>out</strong></p>
 <pre><code>world
 </code></pre>
+<h3 id="the-span-object">The span object</h3>
 <p>A  <code>span</code>  object is a slice of the document consisting of one or more tokens. It’s only a view of the  <code>doc</code>  and doesn’t contain any data itself.</p>
 <p>To create a span, you can use Python’s slice notation. For example,  <code>1:3</code>  will create a slice starting from the token at position 1, up to – <em><strong>but not including!</strong></em> – the token at position 3.</p>
 <pre class=" language-python"><code class="prism  language-python">doc <span class="token operator">=</span> nlp<span class="token punctuation">(</span><span class="token string">"Hello world!"</span><span class="token punctuation">)</span>
@@ -54,6 +55,7 @@ span <span class="token operator">=</span> doc<span class="token punctuation">[<
 <p><strong>out</strong></p>
 <pre><code>world!
 </code></pre>
+<h3 id="lexical-attributes">Lexical Attributes</h3>
 <p><code>i</code>  is the index of the token within the parent document.</p>
 <p><code>text</code>  returns the token text.</p>
 <p><code>is_alpha</code>,  <code>is_punct</code>  and  <code>like_num</code>  return boolean values indicating whether the token consists of alphabetic characters, whether it’s punctuation or whether it  <em>resembles</em>  a number.</p>
@@ -73,13 +75,68 @@ is_alpha: [True, True, False, False, False]
 is_punct: [False, False, False, False, True]
 like_num: [False, False, False, True, False]
 </code></pre>
-<hr>
-<p>spaCy provides a number of trained pipeline packages you can download using the <code>spacy download</code> command.</p>
+<h2 id="trained-pipelines">Trained pipelines</h2>
+<p>What are trained pipelines?</p>
+<ul>
+<li>Models that enable spaCy to predict linguistic attributes  <em>in context</em>
+<ul>
+<li>Part-of-speech tags</li>
+<li>Syntactic dependencies</li>
+<li>Named entities</li>
+</ul>
+</li>
+<li>Trained on labeled example texts</li>
+<li>Can be updated with more examples to fine-tune predictions</li>
+</ul>
+<h3 id="pipeline-packages">Pipeline Packages</h3>
+<p>spaCy provides a number of trained pipeline packages you can download using the  <code>spacy download</code>  command. For example, the “en_core_web_sm” package is a small English pipeline that supports all core capabilities and is trained on web text.</p>
+<p>The  <code>spacy.load</code>  method loads a pipeline package by name and returns an  <code>nlp</code>  object.</p>
+<p>The package provides the binary weights that enable spaCy to make predictions.</p>
+<p>It also includes the vocabulary, meta information about the pipeline and the configuration file used to train it. It tells spaCy which language class to use and how to configure the processing pipeline.</p>
 <pre class=" language-python"><code class="prism  language-python">$ python <span class="token operator">-</span>m spacy download en_core_web_sm
-<span class="token comment">#Load the small English pipeline </span>
+</code></pre>
+<pre class=" language-python"><code class="prism  language-python"><span class="token comment">#Load the small English pipeline </span>
 nlp <span class="token operator">=</span> spacy<span class="token punctuation">.</span>load<span class="token punctuation">(</span><span class="token string">"en_core_web_sm"</span><span class="token punctuation">)</span>
 </code></pre>
-<p>For each token in the doc, we can print the text and the <code>.pos_</code> attribute, the predicted part-of-speech tag.</p>
+<h3 id="predicting-part-of-speech-tags">Predicting Part-of-speech Tags</h3>
+<p>Let’s take a look at the model’s predictions. In this example, we’re using spaCy to predict <em>part-of-speech tags</em>, the word types in context.</p>
+<p>First, we load the small English pipeline and receive an  <code>nlp</code>  object.</p>
+<p>Next, we’re processing the text “She ate the pizza”.</p>
+<p>For each token in the doc, we can print the text and the  <code>.pos_</code>  attribute, the predicted <em><strong>part-of-speech</strong></em> (tipo de palabra o categoria gramatical) tag.</p>
+<p>In spaCy, attributes that return strings usually end with an underscore</p>
+<blockquote>
+<p>attributes without the underscore return an integer ID value.</p>
+</blockquote>
+<p>Here, the model correctly predicted “ate” as a verb and “pizza” as a noun.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">import</span> spacy
+<span class="token comment"># Load the small English pipeline</span>
+nlp <span class="token operator">=</span> spacy<span class="token punctuation">.</span>load<span class="token punctuation">(</span><span class="token string">"en_core_web_sm"</span><span class="token punctuation">)</span>
+<span class="token comment"># Process a text</span>
+doc <span class="token operator">=</span> nlp<span class="token punctuation">(</span><span class="token string">"She ate the pizza"</span><span class="token punctuation">)</span>
+<span class="token comment"># Iterate over the tokens</span>
+<span class="token keyword">for</span> token <span class="token keyword">in</span> doc<span class="token punctuation">:</span>
+    <span class="token comment"># Print the text and the predicted part-of-speech tag</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>token<span class="token punctuation">.</span>text<span class="token punctuation">,</span> token<span class="token punctuation">.</span>pos_<span class="token punctuation">)</span>
+</code></pre>
+<p><strong>out</strong></p>
+<pre class=" language-out"><code class="prism  language-out">She PRON
+ate VERB
+the DET
+pizza NOUN
+</code></pre>
+<h3 id="predicting-syntactic-dependencies">Predicting Syntactic Dependencies</h3>
+<p>In addition to the part-of-speech tags, we can also predict how the words are related. For example, whether a word is the subject of the sentence or an object.</p>
+<p>The  <code>.dep_</code>  attribute returns the <em><strong>predicted dependency label</strong></em>.</p>
+<p>The  <code>.head</code>  attribute returns the <em><strong>syntactic head token</strong></em>. You can also think of it as the parent token this word is attached to.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">for</span> token <span class="token keyword">in</span> doc<span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>token<span class="token punctuation">.</span>text<span class="token punctuation">,</span> token<span class="token punctuation">.</span>pos_<span class="token punctuation">,</span> token<span class="token punctuation">.</span>dep_<span class="token punctuation">,</span> token<span class="token punctuation">.</span>head<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
+</code></pre>
+<p><strong>out</strong></p>
+<pre class=" language-out"><code class="prism  language-out">She PRON nsubj ate
+ate VERB ROOT ate
+the DET det pizza
+pizza NOUN dobj ate
+</code></pre>
 <h1 id="practico">Practico</h1>
 <p>Ver: <a href="https://medium.com/nlplanet/two-minutes-nlp-21-learning-resources-for-text-classification-b6f9c43793e1">Two minutes NLP — 21 Learning Resources for Text Classification</a></p>
 <p><strong>Preprocesado:</strong></p>
