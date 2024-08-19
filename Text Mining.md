@@ -18,7 +18,7 @@ nlp <span class="token operator">=</span> spacy<span class="token punctuation">.
 </code></pre>
 <p>For each token in the doc, we can print the text and the <code>.pos_</code> attribute, the predicted part-of-speech tag.</p>
 <h1 id="practico">Practico</h1>
-<p>ver: two minutes nlp -21 learning sources for text classification (medium)</p>
+<p>Ver: <a href="https://medium.com/nlplanet/two-minutes-nlp-21-learning-resources-for-text-classification-b6f9c43793e1">Two minutes NLP — 21 Learning Resources for Text Classification</a></p>
 <p><strong>Preprocesado:</strong></p>
 <ul>
 <li>
