@@ -1,9 +1,39 @@
----
+<!DOCTYPE html>
+<html>
 
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spacy 101</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
 
----
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li><a href="#chapter-1-finding-words-phrases-names-and-concepts">Chapter 1: Finding words, phrases, names and concepts</a>
+<ul>
+<li><a href="#intro">Intro</a></li>
+<li><a href="#trained-pipelines">Trained pipelines</a></li>
+<li><a href="#rule-based-matching">Rule-based matching</a></li>
+</ul>
+</li>
+<li><a href="#chapter-2-large-scale-data-analysis-with-spacy">Chapter 2: Large-scale data analysis with spaCy</a>
+<ul>
+<li><a href="#data-structures-vocab-lexemes-and-stringstore">Data Structures: Vocab, Lexemes and StringStore</a></li>
+</ul>
+</li>
+<li><a href="#chapter-3-processing-pipelines">Chapter 3: Processing Pipelines</a></li>
+<li><a href="#chapter-4-training-a-neural-network-model">Chapter 4: Training a neural network model</a></li>
+</ul>
 
-<h1 id="chapter-1-finding-words-phrases-names-and-concepts"><a href="https://course.spacy.io/en/chapter1">Chapter 1: Finding words, phrases, names and concepts</a></h1>
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h1 id="chapter-1-finding-words-phrases-names-and-concepts"><a href="https://course.spacy.io/en/chapter1">Chapter 1: Finding words, phrases, names and concepts</a></h1>
 <h2 id="intro">Intro</h2>
 <h3 id="the-nlp-object">The nlp object</h3>
 <p>At the center of spaCy is the object containing the processing pipeline. We usually call this variable “nlp”.</p>
@@ -344,3 +374,8 @@ lexeme <span class="token operator">=</span> nlp<span class="token punctuation">
 <h1 id="chapter-3-processing-pipelines"><a href="https://course.spacy.io/en/chapter3">Chapter 3: Processing Pipelines</a></h1>
 <h1 id="chapter-4-training-a-neural-network-model"><a href="https://course.spacy.io/en/chapter4">Chapter 4: Training a neural network model</a></h1>
 
+    </div>
+  </div>
+</body>
+
+</html>
