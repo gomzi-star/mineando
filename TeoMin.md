@@ -1,30 +1,9 @@
-<!DOCTYPE html>
-<html>
+---
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TeoMin</title>
-  <link rel="stylesheet" href="https://stackedit.io/style.css" />
-</head>
 
-<body class="stackedit">
-  <div class="stackedit__left">
-    <div class="stackedit__toc">
-      
-<ul>
-<li><a href="#teorico-digamos">Teorico ‘digamos’</a>
-<ul>
-<li><a href="#analisis-del-lenguaje">Analisis del Lenguaje</a></li>
-</ul>
-</li>
-</ul>
+---
 
-    </div>
-  </div>
-  <div class="stackedit__right">
-    <div class="stackedit__html">
-      <h1 id="teorico-digamos">Teorico ‘digamos’</h1>
+<h1 id="teorico-digamos">Teorico ‘digamos’</h1>
 <p><strong>Ley de Zipf:</strong><br>
 Los lenguajes naturales (LN) tienen <em><strong>distribucion exponencial</strong></em></p>
 <blockquote>
@@ -57,8 +36,3 @@ ejemplo trad. autimatica:</li>
 <li>transformers</li>
 </ul>
 
-    </div>
-  </div>
-</body>
-
-</html>
