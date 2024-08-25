@@ -923,23 +923,23 @@ dev_docbin<span class="token punctuation">.</span>to_disk<span class="token punc
 <p>Instead of providing lots of arguments on the command line or having to remember to define every single setting in code, <mark>you only need to pass your config file to spaCy’s training command</mark>.</p>
 <p>Config files also help with reproducibility: you’ll have all settings in one place and always know how your pipeline was trained. You can even check your config file into a Git repo to version it and share it with others so they can train the same pipeline with the same settings.</p>
 <p>Here’s an excerpt from a config file used to train a pipeline with a named entity recognizer. The config is grouped into sections, and nested sections are defined using a dot. For example,  <code>[components.ner.model]</code>  defines the settings for the named entity recognizer’s model implementation.</p>
-<pre class=" language-ini"><code class="prism  language-ini"><span class="token selector">[nlp]</span>
-<span class="token constant">lang</span> <span class="token attr-value"><span class="token punctuation">=</span> "en"</span>
-<span class="token constant">pipeline</span> <span class="token attr-value"><span class="token punctuation">=</span> ["tok2vec", "ner"]</span>
-<span class="token constant">batch_size</span> <span class="token attr-value"><span class="token punctuation">=</span> 1000</span>
+<pre class=" language-bash"><code class="prism  language-bash"><span class="token punctuation">[</span>nlp<span class="token punctuation">]</span>
+lang <span class="token operator">=</span> <span class="token string">"en"</span>
+pipeline <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"tok2vec"</span>, <span class="token string">"ner"</span><span class="token punctuation">]</span>
+batch_size <span class="token operator">=</span> 1000
 
-<span class="token selector">[nlp.tokenizer]</span>
-<span class="token constant">@tokenizers</span> <span class="token attr-value"><span class="token punctuation">=</span> "spacy.Tokenizer.v1"</span>
+<span class="token punctuation">[</span>nlp.tokenizer<span class="token punctuation">]</span>
+@tokenizers <span class="token operator">=</span> <span class="token string">"spacy.Tokenizer.v1"</span>
 
-<span class="token selector">[components]</span>
+<span class="token punctuation">[</span>components<span class="token punctuation">]</span>
 
-<span class="token selector">[components.ner]</span>
-<span class="token constant">factory</span> <span class="token attr-value"><span class="token punctuation">=</span> "ner"</span>
+<span class="token punctuation">[</span>components.ner<span class="token punctuation">]</span>
+factory <span class="token operator">=</span> <span class="token string">"ner"</span>
 
-<span class="token selector">[components.ner.model]</span>
-<span class="token constant">@architectures</span> <span class="token attr-value"><span class="token punctuation">=</span> "spacy.TransitionBasedParser.v2"</span>
-<span class="token constant">hidden_width</span> <span class="token attr-value"><span class="token punctuation">=</span> 64</span>
-# And so on...
+<span class="token punctuation">[</span>components.ner.model<span class="token punctuation">]</span>
+@architectures <span class="token operator">=</span> <span class="token string">"spacy.TransitionBasedParser.v2"</span>
+hidden_width <span class="token operator">=</span> 64
+<span class="token comment"># And so on...</span>
 </code></pre>
 <p>Config files can also reference Python functions using the  <code>@</code>  notation. For example, the tokenizer defines a registered tokenizer function. You can use this to customize different parts of the  <code>nlp</code>  object and training – from plugging in your own tokenizer, all the way to implementing your own model architectures. But let’s not worry about this for now – what you’ll learn in this chapter will simply use the defaults spaCy provides out-of-the-box!</p>
 <h3 id="generating-a-config">Generating a config</h3>
