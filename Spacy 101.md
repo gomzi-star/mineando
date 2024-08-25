@@ -557,5 +557,473 @@ doc <span class="token operator">=</span> nlp<span class="token punctuation">(</
 <pre class=" language-out"><code class="prism  language-out">Matched span: Golden Retriever
 </code></pre>
 <h1 id="chapter-3-processing-pipelines"><a href="https://course.spacy.io/en/chapter3">Chapter 3: Processing Pipelines</a></h1>
+<h2 id="processing-pipelines">Processing Pipelines</h2>
+<h3 id="what-happens-when-you-call-nlp">What happens when you call nlp?</h3>
+<p>You’ve already written this plenty of times by now: pass a string of text to the  <code>nlp</code>  object, and receive a  <code>Doc</code>  object.</p>
+<p>But what does the  <code>nlp</code>  object  <em>actually</em>  do?</p>
+<p><img src="https://course.spacy.io/pipeline.png" alt="Illustration of the spaCy pipeline transforming a text into a processed Doc"></p>
+<p>First, the tokenizer is applied to turn the string of text into a  <code>Doc</code>  object. Next, a series of pipeline components is applied to the doc in order. In this case, the tagger, then the parser, then the entity recognizer. Finally, the processed doc is returned, so you can work with it.</p>
+<h3 id="built-in-pipeline-components">Built-in pipeline components</h3>
+<p>spaCy ships with a variety of built-in pipeline components. Here are some of the most common ones that you’ll want to use in your projects.</p>
+<p>The <strong>part-of-speech tagger</strong> sets the  <code>token.tag</code>  and  <code>token.pos</code>  attributes.</p>
+<p>The <strong>dependency parser</strong> adds the  <code>token.dep</code>  and  <code>token.head</code>  attributes and is also responsible for detecting sentences and base noun phrases, also known as noun chunks.</p>
+<p>The <strong>named entity recognizer</strong> adds the detected entities to the  <code>doc.ents</code>  property. It also sets entity type attributes on the tokens that indicate if a token is part of an entity or not.</p>
+<p>Finally, the <em><strong>text classifier</strong></em> sets category labels that apply to the whole text, and adds them to the  <code>doc.cats</code>  property.</p>
+<p>Because text categories are always very specific, <mark>the text classifier is not included in any of the trained pipelines by default</mark>. But you can use it to train your own system.</p>
+<h3 id="under-the-hood">Under the hood</h3>
+<p>All pipeline packages you can load into spaCy include several files and a  <code>config.cfg</code>.</p>
+<p>The config defines things like the language and pipeline. This tells spaCy which components to instantiate and how they should be configured.</p>
+<p>The built-in components that make predictions also need binary data. The data is included in the pipeline package and loaded into the component when you load the pipeline.</p>
+<h3 id="pipeline-attributes">Pipeline attributes</h3>
+<p>To see the names of the pipeline components present in the current nlp object, you can use the  <code>nlp.pipe_names</code>  attribute.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">print</span><span class="token punctuation">(</span>nlp<span class="token punctuation">.</span>pipe_names<span class="token punctuation">)</span>
+</code></pre>
+<p><strong>out</strong></p>
+<pre class=" language-out"><code class="prism  language-out">['tok2vec', 'tagger', 'parser', 'ner', 'attribute_ruler', 'lemmatizer']
+</code></pre>
+<hr>
+<p>For a list of component name and component function tuples, you can use the  <code>nlp.pipeline</code>  attribute.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">print</span><span class="token punctuation">(</span>nlp<span class="token punctuation">.</span>pipeline<span class="token punctuation">)</span>
+</code></pre>
+<p><strong>out</strong></p>
+<pre class=" language-out"><code class="prism  language-out">[('tok2vec', &lt;spacy.pipeline.Tok2Vec&gt;),
+ ('tagger', &lt;spacy.pipeline.Tagger&gt;),
+ ('parser', &lt;spacy.pipeline.DependencyParser&gt;),
+ ('ner', &lt;spacy.pipeline.EntityRecognizer&gt;),
+ ('attribute_ruler', &lt;spacy.pipeline.AttributeRuler&gt;),
+ ('lemmatizer', &lt;spacy.pipeline.Lemmatizer&gt;)]
+</code></pre>
+<p>The component functions are the functions applied to the doc to process it and set attributes – for example, part-of-speech tags or named entities.</p>
+<h2 id="custom-pipeline-components">Custom pipeline components</h2>
+<h3 id="why-custom-components">Why custom components?</h3>
+<p>After the text is tokenized and a  <code>Doc</code>  object has been created, pipeline components are applied in order. spaCy supports a range of built-in components, but also lets you define your own.</p>
+<p>Custom components are executed automatically when you call the  <code>nlp</code>  object on a text.</p>
+<p>They’re especially useful for adding your own custom metadata to documents and tokens.</p>
+<p>You can also use them to update built-in attributes, like the named entity spans.</p>
+<h3 id="anatomy-of-a-component">Anatomy of a component</h3>
+<p>Fundamentally, a pipeline component is a function or callable that takes a doc, modifies it and returns it, so it can be processed by the next component in the pipeline.</p>
+<p>To tell spaCy where to find your custom component and how it should be called, you can decorate it using the  <code>@Language.component</code>  decorator. Just add it to the line right above the function definition.</p>
+<p>Once a component is registered, it can be added to the pipeline using the  <code>nlp.add_pipe</code>  method. The method takes at least one argument: the string name of the component.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">from</span> spacy<span class="token punctuation">.</span>language <span class="token keyword">import</span> Language
+
+@Language<span class="token punctuation">.</span>component<span class="token punctuation">(</span><span class="token string">"custom_component"</span><span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">custom_component_function</span><span class="token punctuation">(</span>doc<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># Do something to the doc here</span>
+    <span class="token keyword">return</span> doc
+
+nlp<span class="token punctuation">.</span>add_pipe<span class="token punctuation">(</span><span class="token string">"custom_component"</span><span class="token punctuation">)</span>
+</code></pre>
+<hr>
+<p>To specify  <em>where</em>  to add the component in the pipeline, you can use the following keyword arguments:</p>
+<p>Setting  <code>last=True</code>  will add the component last in the pipeline. This is the default behavior.</p>
+<p>Setting  <code>first=True</code>  will add the component first in the pipeline, right after the tokenizer.</p>
+<p>The  <code>before</code>  and  <code>after</code>  arguments let you define the name of an existing component to add the new component before or after. For example,  <code>before="ner"</code>  will add it before the named entity recognizer.</p>
+<p>The other component to add the new component before or after needs to exist, though – otherwise, spaCy will raise an error.</p>
+<h3 id="example-a-simple-component">Example: a simple component</h3>
+<p>We start off with the small English pipeline.</p>
+<p>We then define the component – a function that takes a  <code>Doc</code>  object and returns it.</p>
+<p>Let’s do something simple and print the length of the doc that passes through the pipeline.</p>
+<p>Don’t forget to return the doc so it can be processed by the next component in the pipeline! The doc created by the tokenizer is passed through all components, so it’s important that they all return the modified doc.</p>
+<p>To tell spaCy about the new component, we register it using the  <code>@Language.component</code>  decorator and call it “custom_component”.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token comment"># Create the nlp object</span>
+nlp <span class="token operator">=</span> spacy<span class="token punctuation">.</span>load<span class="token punctuation">(</span><span class="token string">"en_core_web_sm"</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Define a custom component</span>
+@Language<span class="token punctuation">.</span>component<span class="token punctuation">(</span><span class="token string">"custom_component"</span><span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">custom_component_function</span><span class="token punctuation">(</span>doc<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># Print the doc's length</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Doc length:"</span><span class="token punctuation">,</span> <span class="token builtin">len</span><span class="token punctuation">(</span>doc<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token comment"># Return the doc object</span>
+    <span class="token keyword">return</span> doc
+</code></pre>
+<p>We can now add the component to the pipeline. Let’s add it to the very beginning right after the tokenizer by setting  <code>first=True</code>.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token comment"># Add the component first in the pipeline</span>
+nlp<span class="token punctuation">.</span>add_pipe<span class="token punctuation">(</span><span class="token string">"custom_component"</span><span class="token punctuation">,</span> first<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+</code></pre>
+<p>When we print the pipeline component names, the custom component now shows up at the start. This means it will be applied first when we process a doc.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token comment"># Print the pipeline component names</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Pipeline:"</span><span class="token punctuation">,</span> nlp<span class="token punctuation">.</span>pipe_names<span class="token punctuation">)</span>
+</code></pre>
+<p><strong>out</strong></p>
+<pre class=" language-out"><code class="prism  language-out">Pipeline: ['custom_component', 'tok2vec', 'tagger', 'parser', 'ner', 'attribute_ruler', 'lemmatizer']
+</code></pre>
+<hr>
+<p>Now when we process a text using the <code>nlp</code> object, the custom component will be applied to the doc and the length of the document will be printed.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token comment"># Create the nlp object</span>
+nlp <span class="token operator">=</span> spacy<span class="token punctuation">.</span>load<span class="token punctuation">(</span><span class="token string">"en_core_web_sm"</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Define a custom component</span>
+@Language<span class="token punctuation">.</span>component<span class="token punctuation">(</span><span class="token string">"custom_component"</span><span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">custom_component_function</span><span class="token punctuation">(</span>doc<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># Print the doc's length</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Doc length:"</span><span class="token punctuation">,</span> <span class="token builtin">len</span><span class="token punctuation">(</span>doc<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token comment"># Return the doc object</span>
+    <span class="token keyword">return</span> doc
+
+<span class="token comment"># Add the component first in the pipeline</span>
+nlp<span class="token punctuation">.</span>add_pipe<span class="token punctuation">(</span><span class="token string">"custom_component"</span><span class="token punctuation">,</span> first<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Process a text</span>
+doc <span class="token operator">=</span> nlp<span class="token punctuation">(</span><span class="token string">"Hello world!"</span><span class="token punctuation">)</span>
+</code></pre>
+<p><strong>out</strong></p>
+<pre class=" language-out"><code class="prism  language-out">Doc length: 3
+</code></pre>
+<h2 id="extension-attributes">Extension attributes</h2>
+<h3 id="setting-custom-attributes">Setting custom attributes</h3>
+<p>Custom attributes let you add any metadata to docs, tokens and spans. The data can be added once, or it can be computed dynamically.</p>
+<p>Custom attributes are available via the  <code>._</code>  (dot underscore) property. This makes it clear that they were added by the user, and not built into spaCy, like  <code>token.text</code>.</p>
+<pre class=" language-python"><code class="prism  language-python">doc<span class="token punctuation">.</span>_<span class="token punctuation">.</span>title <span class="token operator">=</span> <span class="token string">"My document"</span>
+token<span class="token punctuation">.</span>_<span class="token punctuation">.</span>is_color <span class="token operator">=</span> <span class="token boolean">True</span>
+span<span class="token punctuation">.</span>_<span class="token punctuation">.</span>has_color <span class="token operator">=</span> <span class="token boolean">False</span>
+</code></pre>
+<hr>
+<p>Attributes need to be registered on the global  <code>Doc</code>,  <code>Token</code>  and  <code>Span</code>  classes you can import from  <code>spacy.tokens</code>. You’ve already worked with those in the previous chapters. To register a custom attribute on the  <code>Doc</code>,  <code>Token</code>  and  <code>Span</code>, you can use the  <code>set_extension</code>  method.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token comment"># Import global classes</span>
+<span class="token keyword">from</span> spacy<span class="token punctuation">.</span>tokens <span class="token keyword">import</span> Doc<span class="token punctuation">,</span> Token<span class="token punctuation">,</span> Span
+
+<span class="token comment"># Set extensions on the Doc, Token and Span</span>
+Doc<span class="token punctuation">.</span>set_extension<span class="token punctuation">(</span><span class="token string">"title"</span><span class="token punctuation">,</span> default<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">)</span>
+Token<span class="token punctuation">.</span>set_extension<span class="token punctuation">(</span><span class="token string">"is_color"</span><span class="token punctuation">,</span> default<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+Span<span class="token punctuation">.</span>set_extension<span class="token punctuation">(</span><span class="token string">"has_color"</span><span class="token punctuation">,</span> default<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+</code></pre>
+<p>The first argument is the attribute name. Keyword arguments let you define how the value should be computed. In this case, it has a default value and can be overwritten.</p>
+<p>There are three types of extensions: attribute extensions, property extensions and method extensions.</p>
+<h3 id="attribute-extensions">Attribute extensions</h3>
+<p>Attribute extensions <mark>set a default value that can be overwritten</mark>.</p>
+<p>For example, a custom  <code>is_color</code>  attribute on the token that defaults to  <code>False</code>.</p>
+<p>On individual tokens, its value can be changed by overwriting it – in this case, True for the token “blue”.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">from</span> spacy<span class="token punctuation">.</span>tokens <span class="token keyword">import</span> Token
+
+<span class="token comment"># Set extension on the Token with default value</span>
+Token<span class="token punctuation">.</span>set_extension<span class="token punctuation">(</span><span class="token string">"is_color"</span><span class="token punctuation">,</span> default<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+
+doc <span class="token operator">=</span> nlp<span class="token punctuation">(</span><span class="token string">"The sky is blue."</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Overwrite extension attribute value</span>
+doc<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">.</span>_<span class="token punctuation">.</span>is_color <span class="token operator">=</span> <span class="token boolean">True</span>
+</code></pre>
+<h3 id="property-extensions">Property extensions</h3>
+<p>Property extensions work like properties in Python: they <mark>can define a getter function and an optional setter</mark>.</p>
+<p>The getter function is only called when you retrieve the attribute. This lets you compute the value dynamically, and even take other custom attributes into account.</p>
+<p>Getter functions take one argument: the object, in this case, the token. In this example, the function returns whether the token text is in our list of colors.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">from</span> spacy<span class="token punctuation">.</span>tokens <span class="token keyword">import</span> Token
+
+<span class="token comment"># Define getter function</span>
+<span class="token keyword">def</span> <span class="token function">get_is_color</span><span class="token punctuation">(</span>token<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    colors <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"red"</span><span class="token punctuation">,</span> <span class="token string">"yellow"</span><span class="token punctuation">,</span> <span class="token string">"blue"</span><span class="token punctuation">]</span>
+    <span class="token keyword">return</span> token<span class="token punctuation">.</span>text <span class="token keyword">in</span> colors
+</code></pre>
+<p>We can then provide the function via the  <code>getter</code>  keyword argument when we register the extension.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token comment"># Set extension on the Token with getter</span>
+Token<span class="token punctuation">.</span>set_extension<span class="token punctuation">(</span><span class="token string">"is_color"</span><span class="token punctuation">,</span> getter<span class="token operator">=</span>get_is_color<span class="token punctuation">)</span>
+
+doc <span class="token operator">=</span> nlp<span class="token punctuation">(</span><span class="token string">"The sky is blue."</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>doc<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">.</span>_<span class="token punctuation">.</span>is_color<span class="token punctuation">,</span> <span class="token string">"-"</span><span class="token punctuation">,</span> doc<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">.</span>text<span class="token punctuation">)</span>
+</code></pre>
+<p><strong>out</strong></p>
+<pre class=" language-out"><code class="prism  language-out">True - blue
+</code></pre>
+<p>The token “blue” now returns  <code>True</code>  for  <code>._.is_color</code>.</p>
+<hr>
+<p>If you want to set extension attributes on a span, you almost always want to use a property extension with a getter. <mark>Otherwise, you’d have to update  <em>every possible span ever</em>  by hand to set all the values</mark>.</p>
+<p>In this example, the  <code>get_has_color</code>  function takes the span and returns whether the text of any of the tokens is in the list of colors.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">from</span> spacy<span class="token punctuation">.</span>tokens <span class="token keyword">import</span> Span
+
+<span class="token comment"># Define getter function</span>
+<span class="token keyword">def</span> <span class="token function">get_has_color</span><span class="token punctuation">(</span>span<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    colors <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"red"</span><span class="token punctuation">,</span> <span class="token string">"yellow"</span><span class="token punctuation">,</span> <span class="token string">"blue"</span><span class="token punctuation">]</span>
+    <span class="token keyword">return</span> <span class="token builtin">any</span><span class="token punctuation">(</span>token<span class="token punctuation">.</span>text <span class="token keyword">in</span> colors <span class="token keyword">for</span> token <span class="token keyword">in</span> span<span class="token punctuation">)</span>
+
+<span class="token comment"># Set extension on the Span with getter</span>
+Span<span class="token punctuation">.</span>set_extension<span class="token punctuation">(</span><span class="token string">"has_color"</span><span class="token punctuation">,</span> getter<span class="token operator">=</span>get_has_color<span class="token punctuation">)</span>
+</code></pre>
+<p>After we’ve processed the doc, we can check different slices of the doc and the custom  <code>._.has_color</code>  property returns whether the span contains a color token or not.</p>
+<pre class=" language-python"><code class="prism  language-python">doc <span class="token operator">=</span> nlp<span class="token punctuation">(</span><span class="token string">"The sky is blue."</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>doc<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">.</span>_<span class="token punctuation">.</span>has_color<span class="token punctuation">,</span> <span class="token string">"-"</span><span class="token punctuation">,</span> doc<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">.</span>text<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>doc<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">.</span>_<span class="token punctuation">.</span>has_color<span class="token punctuation">,</span> <span class="token string">"-"</span><span class="token punctuation">,</span> doc<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">.</span>text<span class="token punctuation">)</span>
+</code></pre>
+<p><strong>out</strong></p>
+<pre class=" language-out"><code class="prism  language-out">True - sky is blue
+False - The sky
+</code></pre>
+<h3 id="method-extensions">Method extensions</h3>
+<p>Method extensions make <mark>the extension attribute a callable method</mark>.</p>
+<p>You can then pass one or more arguments to it, and compute attribute values dynamically – for example, based on a certain argument or setting.</p>
+<p>In this example, the method function checks whether the doc contains a token with a given text. The first argument of the method is always the object itself – in this case, the doc. It’s passed in automatically when the method is called. All other function arguments will be arguments on the method extension. In this case,  <code>token_text</code>.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">from</span> spacy<span class="token punctuation">.</span>tokens <span class="token keyword">import</span> Doc
+
+<span class="token comment"># Define method with arguments</span>
+<span class="token keyword">def</span> <span class="token function">has_token</span><span class="token punctuation">(</span>doc<span class="token punctuation">,</span> token_text<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    in_doc <span class="token operator">=</span> token_text <span class="token keyword">in</span> <span class="token punctuation">[</span>token<span class="token punctuation">.</span>text <span class="token keyword">for</span> token <span class="token keyword">in</span> doc<span class="token punctuation">]</span>
+    <span class="token keyword">return</span> in_doc
+
+<span class="token comment"># Set extension on the Doc with method</span>
+Doc<span class="token punctuation">.</span>set_extension<span class="token punctuation">(</span><span class="token string">"has_token"</span><span class="token punctuation">,</span> method<span class="token operator">=</span>has_token<span class="token punctuation">)</span>
+
+doc <span class="token operator">=</span> nlp<span class="token punctuation">(</span><span class="token string">"The sky is blue."</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>doc<span class="token punctuation">.</span>_<span class="token punctuation">.</span>has_token<span class="token punctuation">(</span><span class="token string">"blue"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"- blue"</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>doc<span class="token punctuation">.</span>_<span class="token punctuation">.</span>has_token<span class="token punctuation">(</span><span class="token string">"cloud"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"- cloud"</span><span class="token punctuation">)</span>
+</code></pre>
+<p><strong>out</strong></p>
+<pre class=" language-out"><code class="prism  language-out">True - blue
+False - cloud
+</code></pre>
+<p>Here, the custom  <code>._.has_token</code>  method returns  <code>True</code>  for the word “blue” and  <code>False</code>  for the word “cloud”.</p>
+<h2 id="scaling-and-performance">Scaling and performance</h2>
+<h3 id="processing-large-volumes-of-text">Processing large volumes of text</h3>
+<p>If you need to process a lot of texts and create a lot of  <code>Doc</code>  objects in a row, the  <code>nlp.pipe</code>  method can speed this up significantly.</p>
+<p>It processes the texts as a stream and yields  <code>Doc</code>  objects.</p>
+<p>It is much faster than just calling nlp on each text, because <mark>it batches up the texts</mark>.</p>
+<p><code>nlp.pipe</code>  is a generator that yields  <code>Doc</code>  objects, so in order to get a list of docs, remember to call the  <code>list</code>  method around it.</p>
+<p><strong>BAD:</strong></p>
+<pre class=" language-python"><code class="prism  language-python">docs <span class="token operator">=</span> <span class="token punctuation">[</span>nlp<span class="token punctuation">(</span>text<span class="token punctuation">)</span> <span class="token keyword">for</span> text <span class="token keyword">in</span> LOTS_OF_TEXTS<span class="token punctuation">]</span>
+</code></pre>
+<p><strong>GOOD:</strong></p>
+<pre class=" language-python"><code class="prism  language-python">docs <span class="token operator">=</span> <span class="token builtin">list</span><span class="token punctuation">(</span>nlp<span class="token punctuation">.</span>pipe<span class="token punctuation">(</span>LOTS_OF_TEXTS<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<h3 id="passing-in-context">Passing in context</h3>
+<p><code>nlp.pipe</code>  also supports passing in tuples of text / context if you set  <code>as_tuples</code>  to  <code>True</code>.</p>
+<p>The method will then yield doc / context tuples.</p>
+<p>This is useful for passing in additional metadata, like an ID associated with the text, or a page number.</p>
+<pre class=" language-python"><code class="prism  language-python">data <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">(</span><span class="token string">"This is a text"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token string">"id"</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">"page_number"</span><span class="token punctuation">:</span> <span class="token number">15</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">(</span><span class="token string">"And another text"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token string">"id"</span><span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">"page_number"</span><span class="token punctuation">:</span> <span class="token number">16</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span>
+
+<span class="token keyword">for</span> doc<span class="token punctuation">,</span> context <span class="token keyword">in</span> nlp<span class="token punctuation">.</span>pipe<span class="token punctuation">(</span>data<span class="token punctuation">,</span> as_tuples<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>doc<span class="token punctuation">.</span>text<span class="token punctuation">,</span> context<span class="token punctuation">[</span><span class="token string">"page_number"</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre>
+<p><strong>out</strong></p>
+<pre class=" language-out"><code class="prism  language-out">This is a text 15
+And another text 16
+</code></pre>
+<hr>
+<p>You can even add the context metadata to custom attributes.</p>
+<p>In this example, we’re registering two extensions,  <code>id</code>  and  <code>page_number</code>, which default to  <code>None</code>.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">from</span> spacy<span class="token punctuation">.</span>tokens <span class="token keyword">import</span> Doc
+
+Doc<span class="token punctuation">.</span>set_extension<span class="token punctuation">(</span><span class="token string">"id"</span><span class="token punctuation">,</span> default<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">)</span>
+Doc<span class="token punctuation">.</span>set_extension<span class="token punctuation">(</span><span class="token string">"page_number"</span><span class="token punctuation">,</span> default<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">)</span>
+
+data <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">(</span><span class="token string">"This is a text"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token string">"id"</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">"page_number"</span><span class="token punctuation">:</span> <span class="token number">15</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">(</span><span class="token string">"And another text"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token string">"id"</span><span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">"page_number"</span><span class="token punctuation">:</span> <span class="token number">16</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span>
+</code></pre>
+<p>After processing the text and passing through the context, we can overwrite the doc extensions with our context metadata.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">for</span> doc<span class="token punctuation">,</span> context <span class="token keyword">in</span> nlp<span class="token punctuation">.</span>pipe<span class="token punctuation">(</span>data<span class="token punctuation">,</span> as_tuples<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    doc<span class="token punctuation">.</span>_<span class="token punctuation">.</span><span class="token builtin">id</span> <span class="token operator">=</span> context<span class="token punctuation">[</span><span class="token string">"id"</span><span class="token punctuation">]</span>
+    doc<span class="token punctuation">.</span>_<span class="token punctuation">.</span>page_number <span class="token operator">=</span> context<span class="token punctuation">[</span><span class="token string">"page_number"</span><span class="token punctuation">]</span>
+</code></pre>
+<h3 id="using-only-the-tokenizer">Using only the tokenizer</h3>
+<p>Another common scenario: Sometimes you already have a model loaded to do other processing, but you only need the tokenizer for one particular text.</p>
+<p>Running the whole pipeline is unnecessarily slow, because you’ll be getting a bunch of predictions from the model that you don’t need.</p>
+<p>If you only need a tokenized  <code>Doc</code>  object, you can use the  <code>nlp.make_doc</code>  method instead, which takes a text and returns a doc.</p>
+<p>This is also how spaCy does it behind the scenes:  <code>nlp.make_doc</code>  turns the text into a doc before the pipeline components are called.</p>
+<p><strong>BAD:</strong></p>
+<pre class=" language-python"><code class="prism  language-python">doc <span class="token operator">=</span> nlp<span class="token punctuation">(</span><span class="token string">"Hello world"</span><span class="token punctuation">)</span>
+</code></pre>
+<p><strong>GOOD:</strong></p>
+<pre class=" language-python"><code class="prism  language-python">doc <span class="token operator">=</span> nlp<span class="token punctuation">.</span>make_doc<span class="token punctuation">(</span><span class="token string">"Hello world!"</span><span class="token punctuation">)</span>
+</code></pre>
+<h3 id="disabling-pipeline-components">Disabling pipeline components</h3>
+<p>spaCy also allows you to temporarily disable pipeline components using the  <code>nlp.select_pipes</code>  context manager.</p>
+<p>It accepts the keyword arguments  <code>enable</code>  or  <code>disable</code>  that can define a list of string names of the pipeline components to disable. For example, if you only want to use the entity recognizer to process a document, you can temporarily disable the tagger and parser.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token comment"># Disable tagger and parser</span>
+<span class="token keyword">with</span> nlp<span class="token punctuation">.</span>select_pipes<span class="token punctuation">(</span>disable<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">"tagger"</span><span class="token punctuation">,</span> <span class="token string">"parser"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># Process the text and print the entities</span>
+    doc <span class="token operator">=</span> nlp<span class="token punctuation">(</span>text<span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>doc<span class="token punctuation">.</span>ents<span class="token punctuation">)</span>
+</code></pre>
+<p>After the  <code>with</code>  block, the disabled pipeline components are automatically restored.</p>
+<p>In the  <code>with</code>  block, spaCy will only run the remaining components.</p>
 <h1 id="chapter-4-training-a-neural-network-model"><a href="https://course.spacy.io/en/chapter4">Chapter 4: Training a neural network model</a></h1>
+<h2 id="training-and-updating-models">Training and updating models</h2>
+<p>Before we get starting with explaining  <em>how</em>, it’s worth taking a second to ask ourselves: Why would we want to update the model with our own examples? Why can’t we just rely on pre-trained pipelines?</p>
+<p>Statistical models make predictions based on the examples they were trained on.</p>
+<p>You can usually make the model more accurate by showing it examples from your domain.</p>
+<p>You often also want to predict categories specific to your problem, so the model needs to learn about them.</p>
+<p>This is essential for text classification, very useful for entity recognition and a little less critical for tagging and parsing.</p>
+<h3 id="how-training-works">How training works</h3>
+<p>spaCy supports updating existing models with more examples, and training new models. If we’re not starting with a trained pipeline, we first <em><strong>initialize the weights randomly</strong></em>.</p>
+<p>Next, spaCy calls  <code>nlp.update</code>, which predicts a <em><strong>batch of examples with the current weights</strong></em>.</p>
+<p>The model then <em><strong>checks the predictions against</strong></em> the correct answers, and <em><strong>decides how to change the weights</strong></em> to achieve better predictions next time.</p>
+<p>Finally, <em><strong>we make a small correction to the current weights</strong></em> and move on to the next batch of examples.</p>
+<p>spaCy then continues calling  <code>nlp.update</code>  for each batch of examples in the data. During training, you usually want to make multiple passes over the data and train until the model stops improving.</p>
+<p><img src="https://course.spacy.io/training.png" alt="Diagram of the training process"></p>
+<p>The training data are the examples we want to update the model with.</p>
+<p>The text should be a sentence, paragraph or longer document. For the best results, it should be similar to what the model will see at runtime.</p>
+<p>The label is what we want the model to predict. This can be a text category, or an entity span and its type.</p>
+<p>The gradient is how we should change the model to reduce the current error. It’s computed when we compare the predicted label to the true label.</p>
+<p>After training, we can then save out an updated model and use it in our application.</p>
+<h3 id="example-training-the-entity-recognizer">Example: Training the entity recognizer</h3>
+<p>Let’s look at an example for a specific component: the entity recognizer.</p>
+<p>The entity recognizer takes a document and predicts phrases and their labels  <em>in context</em>. This means that the <mark>training data needs to include texts, the entities they contain, and the entity labels</mark>.</p>
+<p>Entities can’t overlap, so each token can only be part of one entity.</p>
+<p>The easiest way to do this is to show the model a text and entity spans. spaCy can be updated from regular  <code>Doc</code>  objects with entities annotated as the  <code>doc.ents</code>. For example, “iPhone X” is a gadget, starts at token 0 and ends at token 1.</p>
+<pre class=" language-python"><code class="prism  language-python">doc <span class="token operator">=</span> nlp<span class="token punctuation">(</span><span class="token string">"iPhone X is coming"</span><span class="token punctuation">)</span>
+doc<span class="token punctuation">.</span>ents <span class="token operator">=</span> <span class="token punctuation">[</span>Span<span class="token punctuation">(</span>doc<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token string">"GADGET"</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+</code></pre>
+<p>It’s also very important for the model to learn words that  <em>aren’t</em>  entities.</p>
+<p>In this case, the list of span annotations will be empty.</p>
+<pre class=" language-python"><code class="prism  language-python">doc <span class="token operator">=</span> nlp<span class="token punctuation">(</span><span class="token string">"I need a new phone! Any tips?"</span><span class="token punctuation">)</span>
+doc<span class="token punctuation">.</span>ents <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+</code></pre>
+<p>Our goal is to teach the model to recognize new entities in similar contexts, even if they weren’t in the training data.</p>
+<h3 id="the-training-data">The training data</h3>
+<p>The training data tells the model what we want it to predict. This could be texts and named entities we want to recognize, tokens and their correct part-of-speech tags or anything else the model should predict.</p>
+<p>To update an existing model, we can start with a <mark>few hundred to a few thousand examples</mark>.</p>
+<p>To train a new category we may need <mark>up to a million</mark>.</p>
+<p>spaCy’s trained English pipelines for instance were trained on 2 million words labelled with part-of-speech tags, dependencies and named entities.</p>
+<p>Training data is usually created by humans who assign labels to texts.</p>
+<p>This is a lot of work, but can be semi-automated – for example, using spaCy’s  <code>Matcher</code>.</p>
+<h3 id="training-vs.-evaluation-data">Training vs. evaluation data</h3>
+<p>When training your model, it’s important to know how it’s doing and whether it’s learning the right thing. This is done by comparing the model’s predictions on examples it  <em>hasn’t</em>  seen during training to answers we already know. So in addition to the training data, you also need evaluation data, also called development data.</p>
+<p>The evaluation data is used to calculate how accurate your model is. For example, an accuracy score of 90% means that the model predicted 90% of the evaluation examples correctly.</p>
+<p>This also means that the evaluation data needs to be representative of the data your model will see at runtime. Otherwise, the accuracy score will be meaningless, because it won’t tell you how good your model  <em>really</em>  is.</p>
+<h3 id="generating-a-training-corpus">Generating a training corpus</h3>
+<p>spaCy can be updated from data in the same format it creates:  <code>Doc</code>  objects. You already learned all about creating  <code>Doc</code>  and  <code>Span</code>  objects in chapter 2.</p>
+<p>In this example, we’re creating two  <code>Doc</code>  objects for our corpus: one that contains an entity and another one that doesn’t contain any entities. To set the entities on the  <code>Doc</code>, we can add a  <code>Span</code>  to the  <code>doc.ents</code>.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">import</span> spacy
+
+nlp <span class="token operator">=</span> spacy<span class="token punctuation">.</span>blank<span class="token punctuation">(</span><span class="token string">"en"</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Create a Doc with entity spans</span>
+doc1 <span class="token operator">=</span> nlp<span class="token punctuation">(</span><span class="token string">"iPhone X is coming"</span><span class="token punctuation">)</span>
+doc1<span class="token punctuation">.</span>ents <span class="token operator">=</span> <span class="token punctuation">[</span>Span<span class="token punctuation">(</span>doc1<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token string">"GADGET"</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+<span class="token comment"># Create another doc without entity spans</span>
+doc2 <span class="token operator">=</span> nlp<span class="token punctuation">(</span><span class="token string">"I need a new phone! Any tips?"</span><span class="token punctuation">)</span>
+
+docs <span class="token operator">=</span> <span class="token punctuation">[</span>doc1<span class="token punctuation">,</span> doc2<span class="token punctuation">]</span>  <span class="token comment"># and so on...</span>
+</code></pre>
+<p>Of course, you’ll need a lot more examples to effectively train your model to generalize and predict similar entities in context. Depending on the task, you usually want at least a few hundred to a few thousand representative examples.</p>
+<p>As I mentioned earlier, we don’t just need data to train the model. We also want to evaluate its accuracy on examples it hasn’t seen during training. This is usually done by shuffling and splitting your data in two: one portion for training and one for evaluation. Here, we’re using a simple 50/50 split.</p>
+<pre class=" language-python"><code class="prism  language-python">random<span class="token punctuation">.</span>shuffle<span class="token punctuation">(</span>docs<span class="token punctuation">)</span>
+train_docs <span class="token operator">=</span> docs<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token builtin">len</span><span class="token punctuation">(</span>docs<span class="token punctuation">)</span> <span class="token operator">//</span> <span class="token number">2</span><span class="token punctuation">]</span>
+dev_docs <span class="token operator">=</span> docs<span class="token punctuation">[</span><span class="token builtin">len</span><span class="token punctuation">(</span>docs<span class="token punctuation">)</span> <span class="token operator">//</span> <span class="token number">2</span><span class="token punctuation">:</span><span class="token punctuation">]</span>
+</code></pre>
+<p>You typically want to store your training and development data as files on disk so you can load them into spaCy’s training process.</p>
+<p>The  <code>DocBin</code>  is a container for efficiently storing and serializing  <code>Doc</code>  objects. You can instantiate it with a list of  <code>Doc</code>  objects and call its  <code>to_disk</code>  method to save it to a binary file. We typically use the file extension  <code>.spacy</code>  for these files.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token comment"># Create and save a collection of training docs</span>
+train_docbin <span class="token operator">=</span> DocBin<span class="token punctuation">(</span>docs<span class="token operator">=</span>train_docs<span class="token punctuation">)</span>
+train_docbin<span class="token punctuation">.</span>to_disk<span class="token punctuation">(</span><span class="token string">"./train.spacy"</span><span class="token punctuation">)</span>
+<span class="token comment"># Create and save a collection of evaluation docs</span>
+dev_docbin <span class="token operator">=</span> DocBin<span class="token punctuation">(</span>docs<span class="token operator">=</span>dev_docs<span class="token punctuation">)</span>
+dev_docbin<span class="token punctuation">.</span>to_disk<span class="token punctuation">(</span><span class="token string">"./dev.spacy"</span><span class="token punctuation">)</span>
+</code></pre>
+<p>Compared to other binary serialization protocols like  <code>pickle</code>, the  <code>DocBin</code>  is faster and produces smaller file sizes because it only stores the shared vocabulary once. You can read more about how it works in the  <a href="https://spacy.io/api/docbin">documentation</a>.</p>
+<h3 id="tip-converting-your-data">Tip: Converting your data</h3>
+<p>In some cases, you might already have training and development data in a common format – for example, CoNLL or IOB. spaCy’s <code>convert</code> command automatically converts these files into spaCy’s binary format. It also converts JSON files in the old format used by spaCy v2.</p>
+<pre class=" language-python"><code class="prism  language-python">$ python <span class="token operator">-</span>m spacy convert <span class="token punctuation">.</span><span class="token operator">/</span>train<span class="token punctuation">.</span>gold<span class="token punctuation">.</span>conll <span class="token punctuation">.</span><span class="token operator">/</span>corpus
+</code></pre>
+<h2 id="configuring-and-running-the-training">Configuring and running the training</h2>
+<h3 id="the-training-config">The training config</h3>
+<p>spaCy uses a config file, usually called  <code>config.cfg</code>, as the “single source of truth” for all settings. The config file defines how to initialize the  <code>nlp</code>  object, which pipeline components to add and how their internal model implementations should be configured. It also includes all settings for the training process and how to load the data, including hyperparameters.</p>
+<p>Instead of providing lots of arguments on the command line or having to remember to define every single setting in code, <mark>you only need to pass your config file to spaCy’s training command</mark>.</p>
+<p>Config files also help with reproducibility: you’ll have all settings in one place and always know how your pipeline was trained. You can even check your config file into a Git repo to version it and share it with others so they can train the same pipeline with the same settings.</p>
+<p>Here’s an excerpt from a config file used to train a pipeline with a named entity recognizer. The config is grouped into sections, and nested sections are defined using a dot. For example,  <code>[components.ner.model]</code>  defines the settings for the named entity recognizer’s model implementation.</p>
+<pre class=" language-ini"><code class="prism  language-ini"><span class="token selector">[nlp]</span>
+<span class="token constant">lang</span> <span class="token attr-value"><span class="token punctuation">=</span> "en"</span>
+<span class="token constant">pipeline</span> <span class="token attr-value"><span class="token punctuation">=</span> ["tok2vec", "ner"]</span>
+<span class="token constant">batch_size</span> <span class="token attr-value"><span class="token punctuation">=</span> 1000</span>
+
+<span class="token selector">[nlp.tokenizer]</span>
+<span class="token constant">@tokenizers</span> <span class="token attr-value"><span class="token punctuation">=</span> "spacy.Tokenizer.v1"</span>
+
+<span class="token selector">[components]</span>
+
+<span class="token selector">[components.ner]</span>
+<span class="token constant">factory</span> <span class="token attr-value"><span class="token punctuation">=</span> "ner"</span>
+
+<span class="token selector">[components.ner.model]</span>
+<span class="token constant">@architectures</span> <span class="token attr-value"><span class="token punctuation">=</span> "spacy.TransitionBasedParser.v2"</span>
+<span class="token constant">hidden_width</span> <span class="token attr-value"><span class="token punctuation">=</span> 64</span>
+# And so on...
+</code></pre>
+<p>Config files can also reference Python functions using the  <code>@</code>  notation. For example, the tokenizer defines a registered tokenizer function. You can use this to customize different parts of the  <code>nlp</code>  object and training – from plugging in your own tokenizer, all the way to implementing your own model architectures. But let’s not worry about this for now – what you’ll learn in this chapter will simply use the defaults spaCy provides out-of-the-box!</p>
+<h3 id="generating-a-config">Generating a config</h3>
+<p>Of course, you don’t have to write the config files by hand, and in a lot of cases, you won’t even need to customize it at all. spaCy can auto-generate a config file for you.</p>
+<p>The quickstart widget in the documentation lets you generate a config interactively by selecting the language and pipeline components you need, as well as optional hardware and optimization settings.</p>
+<p>Alternatively, you can also use spaCy’s built-in  <code>init config</code>  command. It <mark>takes the output file as the first argument</mark>. We usually call this file  <code>config.cfg</code>. The argument  <code>--lang</code>  defines the language class that should be used for the pipeline, for example,  <code>en</code>  for English. The  <code>--pipeline</code>  argument lets you specify one or more comma-separated pipeline components to include. In this example, we’re creating a config with one pipeline component, the named entity recognizer.</p>
+<pre class=" language-bash"><code class="prism  language-bash">$ python -m spacy init config ./config.cfg --lang en --pipeline ner
+</code></pre>
+<h3 id="training-a-pipeline">Training a pipeline</h3>
+<p>To train a pipeline, all you need is the config file and the training and development data. These are the  <code>.spacy</code>  files you already worked with in the previous exercises.</p>
+<p>The first argument of  <code>spacy train</code>  is the path to the config file. The  <code>--output</code>  argument lets you specify a directory for saving the final trained pipeline.</p>
+<p>You can also override different config settings on the command line. In this case, we override  <code>paths.train</code>  using the path to the  <code>train.spacy</code>  file and  <code>paths.dev</code>  using the  <code>dev.spacy</code>  file.</p>
+<pre class=" language-bash"><code class="prism  language-bash">$ python -m spacy train ./config.cfg --output ./output --paths.train train.spacy --paths.dev dev.spacy
+</code></pre>
+<p>Here’s an example of the output you’ll see during and after training. You might remember from earlier in this chapter that you usually want to make several passes over the data during training. Each pass over the data is also called an “epoch”. This is shown in the first column of the table.</p>
+<p>Within each epoch, spaCy outputs the accuracy scores every 200 examples. These are the steps shown in the second column. You can change the frequency in the config. Each line shows the loss and calculated accuracy score at this point during training.</p>
+<pre><code>============================ Training pipeline ============================
+ℹ Pipeline: ['tok2vec', 'ner']
+ℹ Initial learn rate: 0.001
+
+E    #       LOSS TOK2VEC  LOSS NER  ENTS_F  ENTS_P  ENTS_R  SCORE
+---  ------  ------------  --------  ------  ------  ------  ------
+  0       0          0.00     26.50    0.73    0.39    5.43    0.01
+  0     200         33.58    847.68   10.88   44.44    6.20    0.11
+  1     400         70.88    267.65   33.50   45.95   26.36    0.33
+  2     600         67.56    156.63   45.32   62.16   35.66    0.45
+  3     800        138.28    134.12   48.17   74.19   35.66    0.48
+  4    1000        177.95    109.77   51.43   66.67   41.86    0.51
+  6    1200         94.95     52.13   54.63   67.82   45.74    0.55
+  8    1400        126.85     66.19   56.00   65.62   48.84    0.56
+ 10    1600         38.34     24.16   51.96   70.67   41.09    0.52
+ 13    1800        105.14     23.23   56.88   69.66   48.06    0.57
+
+✔ Saved pipeline to output directory
+/path/to/output/model-last
+</code></pre>
+<p>The most interesting score to keep an eye on is the combined score in the last column. It reflects how accurately your model predicted the correct answers in the evaluation data.</p>
+<p>The training runs until the model stops improving and exits automatically.</p>
+<h3 id="loading-a-trained-pipeline">Loading a trained pipeline</h3>
+<p>The pipeline saved after training is a regular loadable spaCy pipeline – just like the trained pipelines provided by spaCy, for example  <code>en_core_web_sm</code>. At the end, the last trained pipeline and the pipeline with the best score is saved to the output directory.</p>
+<p>You can load your trained pipeline by passing the path to  <code>spacy.load</code>. You can then use it to process and analyze text.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">import</span> spacy
+
+nlp <span class="token operator">=</span> spacy<span class="token punctuation">.</span>load<span class="token punctuation">(</span><span class="token string">"/path/to/output/model-best"</span><span class="token punctuation">)</span>
+doc <span class="token operator">=</span> nlp<span class="token punctuation">(</span><span class="token string">"iPhone 11 vs iPhone 8: What's the difference?"</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>doc<span class="token punctuation">.</span>ents<span class="token punctuation">)</span>
+</code></pre>
+<h3 id="tip-packaging-your-pipeline">Tip: Packaging your pipeline</h3>
+<p>To make it easy to deploy your pipelines, spaCy provides a handy command to package them as Python packages. The  <code>spacy package</code>  command takes the path to your exported pipeline and an output directory. It then generates a Python package containing your pipeline. The Python package is a  <code>.tar.gz</code>  file and can be installed into your environment.</p>
+<p>You can also provide an optional name and version on the command. This lets you manage multiple different versions of a pipeline, for example, if you decide to customize your pipeline later or train it with more data.</p>
+<pre class=" language-bash"><code class="prism  language-bash">$ python -m spacy package /path/to/output/model-best ./packages --name my_pipeline --version 1.0.0
+</code></pre>
+<pre class=" language-bash"><code class="prism  language-bash">$ <span class="token function">cd</span> ./packages/en_my_pipeline-1.0.0
+$ pip <span class="token function">install</span> dist/en_my_pipeline-1.0.0.tar.gz
+</code></pre>
+<p>The package behaves just like any other Python package. After installation, you can load your pipeline using its name. Note that spaCy will automatically add the language code to the name. So your pipeline  <code>my_pipeline</code>  will become  <code>en_my_pipeline</code>.</p>
+<pre class=" language-python"><code class="prism  language-python">nlp <span class="token operator">=</span> spacy<span class="token punctuation">.</span>load<span class="token punctuation">(</span><span class="token string">"en_my_pipeline"</span><span class="token punctuation">)</span>
+</code></pre>
+<h2 id="best-practices-for-training-spacy-models">Best practices for training spaCy models</h2>
+<h3 id="problem-1-models-can-forget-things">Problem 1: Models can “forget” things</h3>
+<p>Statistical models can learn lots of things – but <mark>they can also unlearn them</mark>.</p>
+<p>If you’re updating an existing model with new data, especially new labels, it can <mark>overfit</mark> and adjust  <em>too much</em>  to the new examples.</p>
+<p>For instance, if you’re only updating it with examples of  <code>"WEBSITE"</code>, it may “forget” other labels it previously predicted correctly – like  <code>"PERSON"</code>.</p>
+<p>This is also known as the catastrophic forgetting problem.</p>
+<h3 id="solution-1-mix-in-previously-correct-predictions">Solution 1: Mix in previously correct predictions</h3>
+<p>To prevent this, make sure to always <mark>mix in examples of what the model previously got correct</mark>.</p>
+<p>If you’re training a new category  <code>"WEBSITE"</code>, also include examples of  <code>"PERSON"</code>.</p>
+<p>spaCy can help you with this. You can create those additional examples by running the existing model over data and extracting the entity spans you care about.</p>
+<p>You can then mix those examples in with your existing data and update the model with annotations of all labels.</p>
+<h3 id="problem-2-models-cant-learn-everything">Problem 2: Models can’t learn everything</h3>
+<p>Another common problem is that your model just won’t learn what you want it to.</p>
+<p>spaCy’s models make predictions based on the local context – for example, for named entities, the surrounding words are most important.</p>
+<p>If the decision is difficult to make based on the context, the model can struggle to learn it.</p>
+<p>The label scheme also needs to be consistent and not too specific.</p>
+<p>For example, it may be very difficult to teach a model to predict whether something is adult clothing or children’s clothing based on the context. However, just predicting the label “clothing” may work better.</p>
+<h3 id="solution-2-plan-your-label-scheme-carefully">Solution 2: Plan your label scheme carefully</h3>
+<p>Before you start training and updating models, it’s worth taking a step back and planning your label scheme.</p>
+<p>Try to <mark>pick categories that are reflected in the local context and make them more generic if possible</mark>.</p>
+<p>You can always add a rule-based system later to go from generic to specific.</p>
+<p>Generic categories like “clothing” or “band” are both easier to label and easier to learn.</p>
+<p><strong>BAD:</strong></p>
+<pre class=" language-python"><code class="prism  language-python">LABELS <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"ADULT_SHOES"</span><span class="token punctuation">,</span> <span class="token string">"CHILDRENS_SHOES"</span><span class="token punctuation">,</span> <span class="token string">"BANDS_I_LIKE"</span><span class="token punctuation">]</span>
+</code></pre>
+<p><strong>GOOD:</strong></p>
+<pre class=" language-python"><code class="prism  language-python">LABELS <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"CLOTHING"</span><span class="token punctuation">,</span> <span class="token string">"BAND"</span><span class="token punctuation">]</span>
+</code></pre>
 
