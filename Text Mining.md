@@ -5,19 +5,42 @@
 
 <h1 id="teorico-digamos">Teorico ‘digamos’</h1>
 <p><strong>Ley de Zipf:</strong><br>
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Zipf-euro-4_German%2C_Russian%2C_French%2C_Italian%2C_Medieval_English.svg/800px-Zipf-euro-4_German%2C_Russian%2C_French%2C_Italian%2C_Medieval_English.svg.png" alt="Texts in German (1669), Russian (1972), French (1865), Italian (1840), and Medieval English (1460)"><br>
 Los lenguajes naturales (LN) tienen <em><strong>distribucion exponencial</strong></em></p>
 <blockquote>
 <p>Parametros parecidos para cualquier lenguaje!!!</p>
 </blockquote>
-<hr>
-<hr>
+<p><a href="https://open.spotify.com/intl-es/track/22Fvc0gkf7ZCNQEQ2Oxj6D?si=9a43ff5791a64cd9">Smoke - Remix (Blood Orange)</a></p>
+<p>LN = Fenomeno Natural</p>
+<blockquote>
+<p>Sordos de Nicaragua<br>
+Cambio del idioma persa (del nom-ac to erg-abs)<br>
+‘ser’ es el valor por defecto de varias lenguas no hace falta la oalabra mr Heidegger</p>
+</blockquote>
+<p><em><strong>No podemos reducir solo a gramática!</strong></em><br>
+Siguiendo al Noam:odemosobservar sitemaricidades trarables automaticamente.</p>
+<ul>
+<li>mayor parte del LN es <em>regular</em></li>
+<li>otra es "independiente* del contexto</li>
+<li>pequeña parte <em>sebsible</em> al contexto<br>
+<mark>LN es oral</mark><br>
+la escritura es un artefacto <em><strong>sobre</strong></em> LN</li>
+</ul>
+<h2 id="analisis-del-lenguaje">Analisis del Lenguaje</h2>
+<ul>
+<li>Comprender</li>
+<li>Generar<br>
+end-to-end vs analisis por niveles<br>
+ejemplo trad. autimatica:</li>
+<li>analisis y generacion</li>
+<li>canal ruidoso</li>
+<li>transformers</li>
+</ul>
 <h1 id="practico">Practico</h1>
 <p>Ver: <a href="https://medium.com/nlplanet/two-minutes-nlp-21-learning-resources-for-text-classification-b6f9c43793e1">Two minutes NLP — 21 Learning Resources for Text Classification</a></p>
 <p><strong>Preprocesado:</strong></p>
 <ul>
 <li>
-<p>Encoding (ntenatar unificar)</p>
+<p>Encoding (intenatar unificar)</p>
 </li>
 <li>
 <p>Tokenizar (spacy, nltk)</p>
@@ -48,7 +71,7 @@ Los lenguajes naturales (LN) tienen <em><strong>distribucion exponencial</strong
 </li>
 <li>
 <p>Numeros, frecuencias, stopwords</p>
-<p><em><strong>Todos estos pasos deben ser reproducibles!</strong></em></p>
+<p><em><strong><mark>Todos estos pasos deben ser reproducibles!</mark></strong></em></p>
 </li>
 </ul>
 <p><strong>Vectorizacion</strong></p>
