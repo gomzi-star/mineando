@@ -124,9 +124,10 @@ ejemplo trad. autimatica:</li>
 </blockquote>
 <p><a href="https://sites.google.com/view/etica-practica-cd/recursos?authuser=0">Etica para Ciencia de Datos, RECURSOS</a><br>
 Sesgo estadistoco ta todo biem, pero los sesgos sociales</p>
-<h2 id="lms">LMs</h2>
-<h1 id="modelos-de-lenguaje">Modelos de Lenguaje</h1>
+<h1 id="día-mundial-del-trastorno-del-espectro-alcohólico-fetal">9/9 Día Mundial del <a href="https://es.wikipedia.org/wiki/Trastornos_del_espectro_alcoh%C3%B3lico_fetal">Trastorno del Espectro Alcohólico Fetal</a></h1>
+<h2 id="modelos-de-lenguaje">Modelos de Lenguaje</h2>
 <p>Modelos Macrobianos --&gt; Conditional Random Fields --&gt; RNs</p>
+<p><a href="https://jalammar.github.io/illustrated-word2vec/">The Illustrated Word2Vec</a></p>
 <p><a href="https://jalammar.github.io/illustrated-transformer/">The Illustrated Transformer</a></p>
 <p><a href="https://jalammar.github.io/illustrated-gpt2/">The Illustrated GPT2</a></p>
 <p><a href="https://jalammar.github.io/illustrated-bert/">The Illustrated BERT, ELMo, and co. (How NLP Cracked Transfer Learning)</a></p>
@@ -136,8 +137,17 @@ Sesgo estadistoco ta todo biem, pero los sesgos sociales</p>
 <li>Quitar palabras de una oraciones</li>
 </ul>
 <p>Las maquinas siempre son las mismas, pero mejora la perfo. Todo bien pero hay que ‘desmemmorizar’, eh aqui los tranformers pueden ser mas abstastos y sin necesidad de memorizar.</p>
-<p><a href="https://colab.research.google.com/github/nanom/llm_adaptation_2nlp_workshop/blob/main/notebook.ipynb">Notebook Fine-Tuning</a></p>
+<p><a href="https://colab.research.google.com/github/nanom/llm_adaptation_2nlp_workshop/blob/main/notebook.ipynb"><mark>Notebook Fine-Tuning</mark></a></p>
 <p><a href="https://www.databricks.com/blog/efficient-fine-tuning-lora-guide-llms">Efficient Fine-Tuning with LoRA: A Guide to Optimal Parameter Selection for Large Language Models</a></p>
-<p><a href="https://colab.research.google.com/github/GoogleCloudPlatform/generative-ai/blob/main/language/orchestration/langchain/intro_langchain_palm_api.ipynb#scrollTo=c38fe99f">Notebook LangChain</a></p>
+<p><a href="https://colab.research.google.com/github/GoogleCloudPlatform/generative-ai/blob/main/language/orchestration/langchain/intro_langchain_palm_api.ipynb#scrollTo=c38fe99f"><mark>Notebook LangChain</mark></a></p>
 <p><a href="https://huggingface.co/learn/nlp-course/chapter1/1">Curso NLP HuggingFace</a></p>
+<h1 id="dia-de-cataluña-dia-del-maestro">11/9 Dia de cataluña, Dia del maestro</h1>
+<h2 id="aprendizaje-nosuper">Aprendizaje nosuper</h2>
+<blockquote>
+<p><em><strong>Cancion del dia:</strong></em> <a href="https://www.youtube.com/watch?v=uMshgHF9Gso">Red Wine Supernova - Chapell Roan</a></p>
+</blockquote>
+<p><a href="https://medium.com/analytics-vidhya/latent-dirichelt-allocation-1ec8729589d4">Latent Dirichlet Allocation</a></p>
+<p><a href="https://colab.research.google.com/github/gal-a/blog/blob/master/docs/notebooks/nlp/nlp_tf-idf_clustering.ipynb#scrollTo=pYqkfe2b9q2u"><mark>Notebook non-supervised</mark></a></p>
+<p><a href="https://docs.google.com/presentation/d/1_qMyMAkwjHdapEektl0LKQjvaJSETFZe/edit?rtpof=true&amp;sd=true"><em><strong>SLIDES 1 USADOS</strong></em></a></p>
+<p><a href="https://docs.google.com/presentation/d/1lD3U1b3W5cs6oc0FKGDWy5vn9r41M0Y3/edit#slide=id.p1"><em><strong>SLIDES 2 USADOS</strong></em></a></p>
 
