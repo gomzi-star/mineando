@@ -16,4 +16,7 @@
 <li><a href="https://drive.google.com/open?id=11r7qcrIiOH1XnaaAUP6KitO0PD3mVuIr&amp;usp=drive_fs">Private prediction for large-scale synthetic text generation</a></li>
 <li><a href="https://drive.google.com/open?id=11aaTJqEBM3URVm0Z2gK0gPcZiGTzZKOx&amp;usp=drive_fs">Privacy-Preserving Instructions for Aligning Large Language Models</a>: DP con ICL (In Context Learning)</li>
 </ul>
+<p><a href="https://programming-dp.com/cover.html">https://programming-dp.com/cover.html</a><br>
+<a href="https://arxiv.org/pdf/2305.17333">https://arxiv.org/pdf/2305.17333</a><br>
+<a href="https://github.com/gretelai/gretel-synthetics">https://github.com/gretelai/gretel-synthetics</a></p>
 
