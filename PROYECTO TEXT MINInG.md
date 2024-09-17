@@ -9,6 +9,10 @@
 <li><a href="https://github.com/gretelai/gretel-synthetics">Gretel Synthetics · GitHub</a>: Pago :(</li>
 <li><a href="https://github.com/microsoft/dp-transformers">dp-transformers · GitHub</a>: DP finetune</li>
 <li><a href="https://github.com/AI-secure/aug-pe">aug-pe · GitHub</a>: DP prompt (PE)</li>
+<li><a href="https://huggingface.co/meta-llama/Meta-Llama-3.1-8B-Instruct">Meta-Llama-3.1-8B-Instruct · Hugging Face</a></li>
+<li><a href="https://huggingface.co/mistralai/Mistral-Nemo-Instruct-2407">Mistral-Nemo-Instruct-2407 · Hugging Face</a></li>
+<li><a href="https://huggingface.co/bigscience/bloom">bloom · Hugging Face</a></li>
+<li><a href="https://huggingface.co/flax-community/gpt-2-spanish">gpt-2-spanish · Hugging Face</a></li>
 </ul>
 <p><em><strong>Papers:</strong></em></p>
 <ul>
