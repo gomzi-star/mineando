@@ -137,9 +137,9 @@ Sesgo estadistoco ta todo biem, pero los sesgos sociales</p>
 <li>Quitar palabras de una oraciones</li>
 </ul>
 <p>Las maquinas siempre son las mismas, pero mejora la perfo. Todo bien pero hay que ‘desmemmorizar’, eh aqui los tranformers pueden ser mas abstastos y sin necesidad de memorizar.</p>
-<p><a href="https://colab.research.google.com/github/nanom/llm_adaptation_2nlp_workshop/blob/main/notebook.ipynb"><mark>Notebook Fine-Tuning</mark></a></p>
+<p><a href="https://colab.research.google.com/github/nanom/llm_adaptation_2nlp_workshop/blob/main/notebook.ipynb"><mark><em><strong>Notebook Fine-Tuning</strong></em></mark></a></p>
 <p><a href="https://www.databricks.com/blog/efficient-fine-tuning-lora-guide-llms">Efficient Fine-Tuning with LoRA: A Guide to Optimal Parameter Selection for Large Language Models</a></p>
-<p><a href="https://colab.research.google.com/github/GoogleCloudPlatform/generative-ai/blob/main/language/orchestration/langchain/intro_langchain_palm_api.ipynb#scrollTo=c38fe99f"><mark>Notebook LangChain</mark></a></p>
+<p><a href="https://colab.research.google.com/github/GoogleCloudPlatform/generative-ai/blob/main/language/orchestration/langchain/intro_langchain_palm_api.ipynb#scrollTo=c38fe99f"><mark><em><strong>Notebook LangChain</strong></em></mark></a></p>
 <p><a href="https://huggingface.co/learn/nlp-course/chapter1/1">Curso NLP HuggingFace</a></p>
 <h1 id="dia-de-cataluña-dia-del-maestro">11/9 Dia de cataluña, Dia del maestro</h1>
 <h2 id="aprendizaje-nosuper">Aprendizaje nosuper</h2>
@@ -147,7 +147,12 @@ Sesgo estadistoco ta todo biem, pero los sesgos sociales</p>
 <p><em><strong>Cancion del dia:</strong></em> <a href="https://www.youtube.com/watch?v=uMshgHF9Gso">Red Wine Supernova - Chapell Roan</a></p>
 </blockquote>
 <p><a href="https://medium.com/analytics-vidhya/latent-dirichelt-allocation-1ec8729589d4">Latent Dirichlet Allocation</a></p>
-<p><a href="https://colab.research.google.com/github/gal-a/blog/blob/master/docs/notebooks/nlp/nlp_tf-idf_clustering.ipynb#scrollTo=pYqkfe2b9q2u"><mark>Notebook non-supervised</mark></a></p>
+<p><a href="https://colab.research.google.com/github/gal-a/blog/blob/master/docs/notebooks/nlp/nlp_tf-idf_clustering.ipynb#scrollTo=pYqkfe2b9q2u"><mark><em><strong>Notebook non-supervised</strong></em></mark></a></p>
 <p><a href="https://docs.google.com/presentation/d/1_qMyMAkwjHdapEektl0LKQjvaJSETFZe/edit?rtpof=true&amp;sd=true"><em><strong>SLIDES 1 USADOS</strong></em></a></p>
 <p><a href="https://docs.google.com/presentation/d/1lD3U1b3W5cs6oc0FKGDWy5vn9r41M0Y3/edit#slide=id.p1"><em><strong>SLIDES 2 USADOS</strong></em></a></p>
+<h1 id="día-internacional-del-espeleólogo">16/9 Día Internacional del <a href="https://es.wikipedia.org/wiki/Espele%C3%B3logo" title="Espeleólogo">Espeleólogo</a></h1>
+<h2 id="hate-speech-detection">Hate speech detection</h2>
+<p><em><strong>TF - IDF</strong></em> normalizacion (sirve para pocos datos)</p>
+<p><a href="https://arxiv.org/abs/2106.09462">PAPER: pysentimiento: A Python Toolkit for Opinion Mining and Social NLP tasks</a><br>
+<a href="https://colab.research.google.com/github/pysentimiento/pysentimiento/blob/master/notebooks/examples/pysentimiento_sentiment_analysis_in_spanish.ipynb"><mark><em><strong>Notebook pySentimiento</strong></em></mark></a></p>
 
