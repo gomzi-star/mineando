@@ -19,6 +19,19 @@
 <li><a href="https://chunkviz.up.railway.app/">ChunkViz</a>: Visualizacion de Chunk (Character y Recursive)</li>
 <li><a href="https://github.com/FullStackRetrieval-com/RetrievalTutorials/blob/main/tutorials/LevelsOfTextSplitting/5_Levels_Of_Text_Splitting.ipynb">5 Levels Of Text Splitting</a></li>
 </ul>
+<p><img src="https://alphapav.github.io/augpe-dpapitext/static/images/method.png" alt="illustrative-example"></p>
+<ul>
+<li><strong>Step 1 (RANDOM_API):</strong>  we use prompts to generate random samples from the LLM.</li>
+<li><strong>Step 2:</strong>  we iteratively go through steps 2.1-2.3 to refine the synthetic samples towards the private samples.
+<ul>
+<li><strong>Step 2.1:</strong>  each private sample votes for their closest synthetic sample in the embedding space induced by embedding model. “A great spot for pizza” gets 2 votes, and the other sample gets 0 votes. We then add Gaussian noise to the votes to ensure DP. This gives us the  <strong>DP Nearest Neighbor Histogram (DP_NN_HISTOGRAM).</strong></li>
+<li><strong>Step 2.2:</strong>  we resample the generated texts according to the histogram. We assume that only “A great spot for pizza” remains.</li>
+<li><strong>Step 2.3 (VARIATION_API):</strong>  we use prompts to ask the LLM to generate new similar samples, which will be used in the initial synthetic samples for the next iteration.<br>
+<em><strong>Datasets</strong></em></li>
+</ul>
+</li>
+<li><a href="https://huggingface.co/datasets/ai4privacy/pii-masking-300k/viewer/default/train?f%5Blanguage%5D%5Bvalue%5D=%27Spanish%27&amp;row=148907">https://huggingface.co/datasets/ai4privacy/pii-masking-300k/viewer/default/train?f[language][value]='Spanish'&amp;row=148907</a></li>
+</ul>
 <p><em><strong>Papers:</strong></em></p>
 <ul>
 <li><a href="https://drive.google.com/open?id=11r9C6AYiOOHMV9hhXRmeAl2EApwkoDrP&amp;usp=drive_fs">Survey of Post-OCR Processing Approaches</a></li>
@@ -38,6 +51,7 @@
 <ul>
 <li><a href="https://arxiv.org/pdf/2305.17333">Fine-Tuning Language Models with Just Forward Passes</a></li>
 <li><a href="https://shairozsohail.medium.com/reading-and-categorizing-scanned-documents-using-deep-learning-4ab2c0e3f34c">Reading and Categorizing Scanned Documents using Deep Learning</a></li>
+<li><a href="https://arxiv.org/pdf/2302.00539">https://arxiv.org/pdf/2302.00539</a></li>
 </ul>
 <p><a href="https://drive.google.com/drive/folders/1IqlNGfmTxmIHW6rRZ73cuQsxAn_j0uVo?usp=sharing"><strong>DRIVE CON TODO</strong></a></p>
 
