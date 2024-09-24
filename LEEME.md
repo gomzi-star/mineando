@@ -6,3 +6,4 @@ A partir de ___ hacer ___ para ___
 ## Técnicas Relevantes para Aplicar
 ## Referencias
 ## Planificacion
+<img src="https://github.com/user-attachments/assets/f4b03628-6b17-4284-9dc8-4eb799f6da7b" alt="drawing" width="100%"/>
