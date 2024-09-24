@@ -1,1 +1,8 @@
-<script src="https://gist.github.com/gomzi-star/7fff80d1f06b5cdc8c1d652b115d4e2f.js"></script>
+# Generacion de Datos Sintéticos con en Archivo del Terror
+## Resumen
+A partir de ___ hacer ___ para ___
+## Hipotesis de Trabajo
+## Objetivos Preliminares
+## Técnicas Relevantes para Aplicar
+## Referencias
+## Planificacion
