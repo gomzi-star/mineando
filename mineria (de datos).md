@@ -63,6 +63,7 @@ Los lenguajes naturales (LN) tienen <em><strong>distribucion exponencial</strong
 <a href="https://blog.insightdatascience.com/how-to-solve-90-of-nlp-problems-a-step-by-step-guide-fda605278e4e">How to solve 90% of NLP problems: a step-by-step guide</a></p>
 <p>Parte de la muestra sirve estratificar (nose que es)<br>
 <em>stop words</em>: son palabras sin significancia dictica (ver bienn)</p>
+<h1 id="día-del-filatelista-argentino">21/8 Día del Filatelista Argentino</h1>
 <h2 id="analisis-del-lenguaje">Analisis del Lenguaje</h2>
 <blockquote>
 <p><em><strong>Cancion del dia</strong></em>: <a href="https://open.spotify.com/intl-es/track/22Fvc0gkf7ZCNQEQ2Oxj6D?si=9a43ff5791a64cd9">Smoke Remix  - Blood Orange, Yves Tumor</a></p>
@@ -91,6 +92,7 @@ ejemplo trad. autimatica:</li>
 <li>transformers</li>
 </ul>
 <p><a href="https://docs.google.com/presentation/d/1APyWCRzmQYnyPU1vHGfTF3TNrluGHepyFCV3JkVJBiQ/edit#slide=id.p"><em><strong>SLIDES USADOS</strong></em></a></p>
+<h1 id="día-del-archivero-día-de-la-ancianidad">28/8 Día del Archivero, Día de la Ancianidad</h1>
 <h2 id="evaluacion-de-modelos">Evaluacion de Modelos</h2>
 <blockquote>
 <p><em><strong>Cancion del dia</strong></em>: <a href="https://open.spotify.com/intl-es/track/4WiiRw2PHMNQE0ad6y6GdD?si=c42a4b6f2ea744a1">Chocolate - The 1975</a></p>
@@ -117,14 +119,19 @@ ejemplo trad. autimatica:</li>
 </ul>
 <p>Para LLMs se suelen usar distintos benchmarks como:<br>
 <a href="https://nordicapis.com/7-ways-to-test-llms/?ref=dailydev">7 Ways to Test LLMs</a></p>
-<p><a href="https://docs.google.com/presentation/d/10Zz1K8jx3Q5XOs78tlMGFfiTAKkfAXTTaea3KgDBQIk/edit#slide=id.gb0f795d4a0_0_20"><em><strong>SLIDES USADOS</strong></em></a></p>
+<p><a href="https://docs.google.com/presentation/d/10Zz1K8jx3Q5XOs78tlMGFfiTAKkfAXTTaea3KgDBQIk/edit#slide=id.gb0f795d4a0_0_20"><em><strong>SLIDES USADOS</strong></em></a>.</p>
+<h1 id="día-de-la-industria">2/9 Día de la Industria</h1>
+<h2 id="evaluación-2-posta">Evaluación 2 (Posta)</h2>
+<p><a href="https://drive.google.com/file/d/1aOIVdW3ytbapwf1AdwSFsQgkAEltUqaA/view"><strong>CLASE</strong></a></p>
+<h1 id="día-del-inmigrante">4/9 Día del Inmigrante</h1>
 <h2 id="inteligancia-artificial-responsable">Inteligancia Artificial Responsable</h2>
 <blockquote>
 <p>Cancion de Dia: <a href="https://open.spotify.com/intl-es/track/34sOdxWu9FljH84UXdRwu1?si=b92d5bbb57f84ed8">All american bitch - Olivia Rodrigo</a></p>
 </blockquote>
 <p><a href="https://sites.google.com/view/etica-practica-cd/recursos?authuser=0">Etica para Ciencia de Datos, RECURSOS</a><br>
-Sesgo estadistoco ta todo biem, pero los sesgos sociales</p>
-<h1 id="día-mundial-del-trastorno-del-espectro-alcohólico-fetal">9/9 Día Mundial del <a href="https://es.wikipedia.org/wiki/Trastornos_del_espectro_alcoh%C3%B3lico_fetal">Trastorno del Espectro Alcohólico Fetal</a></h1>
+Sesgo estadistoco ta todo biem, pero los sesgos sociales<br>
+<a href="https://drive.google.com/file/d/1m63wGShBGgN956PEawKdscwMZ2uEZmpN/view"><strong>CLASE</strong></a></p>
+<h1 id="día-mundial-del-trastorno-del-espectro-alcohólico-fetal">9/9 Día Mundial del Trastorno del Espectro Alcohólico Fetal</h1>
 <h2 id="modelos-de-lenguaje">Modelos de Lenguaje</h2>
 <p>Modelos Macrobianos --&gt; Conditional Random Fields --&gt; RNs</p>
 <p><a href="https://jalammar.github.io/illustrated-word2vec/">The Illustrated Word2Vec</a></p>
@@ -150,9 +157,41 @@ Sesgo estadistoco ta todo biem, pero los sesgos sociales</p>
 <p><a href="https://colab.research.google.com/github/gal-a/blog/blob/master/docs/notebooks/nlp/nlp_tf-idf_clustering.ipynb#scrollTo=pYqkfe2b9q2u"><mark><em><strong>Notebook non-supervised</strong></em></mark></a></p>
 <p><a href="https://docs.google.com/presentation/d/1_qMyMAkwjHdapEektl0LKQjvaJSETFZe/edit?rtpof=true&amp;sd=true"><em><strong>SLIDES 1 USADOS</strong></em></a></p>
 <p><a href="https://docs.google.com/presentation/d/1lD3U1b3W5cs6oc0FKGDWy5vn9r41M0Y3/edit#slide=id.p1"><em><strong>SLIDES 2 USADOS</strong></em></a></p>
-<h1 id="día-internacional-del-espeleólogo">16/9 Día Internacional del <a href="https://es.wikipedia.org/wiki/Espele%C3%B3logo" title="Espeleólogo">Espeleólogo</a></h1>
+<h1 id="día-internacional-del-espeleólogo">16/9 Día Internacional del Espeleólogo</h1>
 <h2 id="hate-speech-detection">Hate speech detection</h2>
 <p><em><strong>TF - IDF</strong></em> normalizacion (sirve para pocos datos)</p>
 <p><a href="https://arxiv.org/abs/2106.09462">PAPER: pysentimiento: A Python Toolkit for Opinion Mining and Social NLP tasks</a><br>
-<a href="https://colab.research.google.com/github/pysentimiento/pysentimiento/blob/master/notebooks/examples/pysentimiento_sentiment_analysis_in_spanish.ipynb"><mark><em><strong>Notebook pySentimiento</strong></em></mark></a></p>
+<a href="https://colab.research.google.com/github/pysentimiento/pysentimiento/blob/master/notebooks/examples/pysentimiento_sentiment_analysis_in_spanish.ipynb"><mark><em><strong>Notebook pySentimiento</strong></em></mark></a><br>
+<a href="https://drive.google.com/file/d/1eok_nC2sfS-tVmxqQdOqA_NbCPCpiCJ7/view">CLASE</a></p>
+<h1 id="día-internacional-del-ventilador">18/9 Día Internacional del Ventilador</h1>
+<h2 id="contranarrativa">Contranarrativa</h2>
+<blockquote>
+<p><em><strong>Cancion del dia:</strong></em> <a href="https://youtu.be/KnGSVIZGkQo?list=PLuJvP70U5L0tc-aIMe8ALcRvqPVjgN085">FKA twigs - Eusexua</a></p>
+</blockquote>
+<p><a href="https://docs.google.com/presentation/d/1f1u8NCgGChVgAeMC4-hfRXoqs_6V4YojBOKO65gcasY/edit#slide=id.p"><em><strong>SLIDES</strong></em></a></p>
+<p>Propuesta contranarrativa del discurso de odio, no solo una repuesta, enfasis en <strong>propositiva</strong>.</p>
+<h1 id="día-de-las-bibliotecas-populares">23/9 Día de las Bibliotecas Populares</h1>
+<h2 id="traducción-automática">Traducción Automática</h2>
+<p><a href="https://drive.google.com/file/d/1gqFjUTmOO7eVCTTvivCQwKyHYSg6aTFr/view">CLASE</a></p>
+<h1 id="section">30/9</h1>
+<h2 id="semisupervisado">Semisupervisado</h2>
+<p><a href="https://drive.google.com/file/d/1oKujo1sGUP-DJgESdnDjYTN4Efj-7Cy7/view">CLASE</a></p>
+<h1 id="día-mundial-del-correo">9/10 Día Mundial del Correo</h1>
+<h2 id="adquisicion-lexica">Adquisicion Lexica</h2>
+<p>Términos multipalabra – Capítulo 5 de Manning &amp; Schütze 1999</p>
+<p><em><strong>Información Mútua (e información mútua puntual)</strong></em></p>
+<ul>
+<li>identificamos secuencias de palabras cuyo número de ocurrencias juntas es significativo con respecto a su número de ocurrencias separadas</li>
+</ul>
+<blockquote>
+<p>Para daatasets chicos puede performar mal, pues la asuncion de MI es que los datos subyacen en una gausiana falso, minimas diferencias de conteo de palabras en datasets chicos disparan diferencias grandes en MI</p>
+</blockquote>
+<p><em><strong>Alternativas</strong></em></p>
+<ul>
+<li>likelihood ratio, chi cuadrado</li>
+<li>alternativas ingenieriles: reservar masa de probabilidad para eventos poco frecuentes o no vistos</li>
+</ul>
+<p>Para secuencias no coninuas, se varian todos los n-gramas sobre la oracion, la <strong>ventana deslizante</strong>. El largo alcance de RNNs le da potencia a las ventanas para reconocer correlaciones ‘lejanas’.</p>
+<p>PAPER: <a href="https://www.patrickpantel.com/download/papers/2002/kdd02.pdf">Discovering Word Senses from Text</a></p>
+<p><a href="https://drive.google.com/file/d/1yqtaKS3fPbg5wKMMRkRZpMHjuix6MAwx/view">https://drive.google.com/file/d/1yqtaKS3fPbg5wKMMRkRZpMHjuix6MAwx/view</a></p>
 
