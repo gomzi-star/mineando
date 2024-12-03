@@ -149,7 +149,7 @@ Sesgo estadistoco ta todo biem, pero los sesgos sociales<br>
 <p><a href="https://colab.research.google.com/github/GoogleCloudPlatform/generative-ai/blob/main/language/orchestration/langchain/intro_langchain_palm_api.ipynb#scrollTo=c38fe99f"><mark><em><strong>Notebook LangChain</strong></em></mark></a></p>
 <p><a href="https://huggingface.co/learn/nlp-course/chapter1/1">Curso NLP HuggingFace</a></p>
 <h1 id="dia-de-cataluña-dia-del-maestro">11/9 Dia de cataluña, Dia del maestro</h1>
-<h2 id="aprendizaje-nosuper">Aprendizaje nosuper</h2>
+<h2 id="nosupervisado">Nosupervisado</h2>
 <blockquote>
 <p><em><strong>Cancion del dia:</strong></em> <a href="https://www.youtube.com/watch?v=uMshgHF9Gso">Red Wine Supernova - Chapell Roan</a></p>
 </blockquote>
@@ -164,18 +164,30 @@ Sesgo estadistoco ta todo biem, pero los sesgos sociales<br>
 <a href="https://colab.research.google.com/github/pysentimiento/pysentimiento/blob/master/notebooks/examples/pysentimiento_sentiment_analysis_in_spanish.ipynb"><mark><em><strong>Notebook pySentimiento</strong></em></mark></a><br>
 <a href="https://drive.google.com/file/d/1eok_nC2sfS-tVmxqQdOqA_NbCPCpiCJ7/view">CLASE</a></p>
 <h1 id="día-internacional-del-ventilador">18/9 Día Internacional del Ventilador</h1>
-<h2 id="contranarrativa">Contranarrativa</h2>
+<h2 id="discurso-de-odio-y-argumentación">Discurso de odio y Argumentación</h2>
 <blockquote>
 <p><em><strong>Cancion del dia:</strong></em> <a href="https://youtu.be/KnGSVIZGkQo?list=PLuJvP70U5L0tc-aIMe8ALcRvqPVjgN085">FKA twigs - Eusexua</a></p>
 </blockquote>
 <p><a href="https://docs.google.com/presentation/d/1f1u8NCgGChVgAeMC4-hfRXoqs_6V4YojBOKO65gcasY/edit#slide=id.p"><em><strong>SLIDES</strong></em></a></p>
 <p>Propuesta contranarrativa del discurso de odio, no solo una repuesta, enfasis en <strong>propositiva</strong>.</p>
+<p><a href="https://drive.google.com/file/d/1ykZDc7r65cqoEO7xlC77wquPGr_TJBmt/view"><strong>CLASE</strong></a></p>
 <h1 id="día-de-las-bibliotecas-populares">23/9 Día de las Bibliotecas Populares</h1>
 <h2 id="traducción-automática">Traducción Automática</h2>
-<p><a href="https://drive.google.com/file/d/1gqFjUTmOO7eVCTTvivCQwKyHYSg6aTFr/view">CLASE</a></p>
-<h1 id="section">30/9</h1>
+<p><a href="https://drive.google.com/file/d/1gqFjUTmOO7eVCTTvivCQwKyHYSg6aTFr/view">CLASE</a><br>
+<mark>Metricas</mark><br>
+BLEU<br>
+BERT score<br>
+Vauquois Triangle</p>
+<p><strong>Allocation</strong></p>
+<ul>
+<li>IBM1: Correspondencia 1a1 de palabras</li>
+<li>IBM2: Scuancia a secuencia</li>
+</ul>
+<p><strong>Traduccion Neuronal</strong></p>
+<h1 id="día-internacional-de-la-traducción">30/9 Día Internacional de la Traducción</h1>
 <h2 id="semisupervisado">Semisupervisado</h2>
-<p><a href="https://drive.google.com/file/d/1oKujo1sGUP-DJgESdnDjYTN4Efj-7Cy7/view">CLASE</a></p>
+<p><a href="https://drive.google.com/file/d/1oKujo1sGUP-DJgESdnDjYTN4Efj-7Cy7/view">CLASE</a><br>
+Autoaprendizaje</p>
 <h1 id="día-mundial-del-correo">9/10 Día Mundial del Correo</h1>
 <h2 id="adquisicion-lexica">Adquisicion Lexica</h2>
 <p>Términos multipalabra – Capítulo 5 de Manning &amp; Schütze 1999</p>
@@ -193,5 +205,12 @@ Sesgo estadistoco ta todo biem, pero los sesgos sociales<br>
 </ul>
 <p>Para secuencias no coninuas, se varian todos los n-gramas sobre la oracion, la <strong>ventana deslizante</strong>. El largo alcance de RNNs le da potencia a las ventanas para reconocer correlaciones ‘lejanas’.</p>
 <p>PAPER: <a href="https://www.patrickpantel.com/download/papers/2002/kdd02.pdf">Discovering Word Senses from Text</a></p>
-<p><a href="https://drive.google.com/file/d/1yqtaKS3fPbg5wKMMRkRZpMHjuix6MAwx/view">https://drive.google.com/file/d/1yqtaKS3fPbg5wKMMRkRZpMHjuix6MAwx/view</a></p>
+<p><a href="https://drive.google.com/file/d/1yqtaKS3fPbg5wKMMRkRZpMHjuix6MAwx/view">CLASE</a></p>
+<h1 id="día-del-seguro">21/10 Día del Seguro</h1>
+<h2 id="sistemas-de-dialogo-y-reinforcement-learning">Sistemas de Dialogo y Reinforcement Learning</h2>
+<p><a href="https://drive.google.com/file/d/1Gq9Gm80yca75JlU6Q3czOt1xRh0PuqI0/view">CLASE.1</a></p>
+<p><a href="https://drive.google.com/file/d/1iR6S-MVT2NZJdG2a4aGfxr-a72jl5ooG/view">CLASE.2</a></p>
+<h1 id="día-del-mol">23/10 Día del Mol</h1>
+<h2 id="sentiment-analysis-y-stance-detection">Sentiment analysis y Stance detection</h2>
+<p><a href="https://drive.google.com/file/d/1e3pEfvdO_aOIokbh3iKY687ulnjY5u97/view">CLASE</a></p>
 
