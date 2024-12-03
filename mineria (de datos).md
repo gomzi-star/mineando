@@ -187,7 +187,20 @@ Vauquois Triangle</p>
 <h1 id="día-internacional-de-la-traducción">30/9 Día Internacional de la Traducción</h1>
 <h2 id="semisupervisado">Semisupervisado</h2>
 <p><a href="https://drive.google.com/file/d/1oKujo1sGUP-DJgESdnDjYTN4Efj-7Cy7/view">CLASE</a><br>
-Autoaprendizaje</p>
+<strong>Autoaprendizaje</strong><br>
+Entrenar un modelo sobre un conjunto etiquetado y clasificar los restantes.</p>
+<ul>
+<li>Incorpora nuevas etiquetas si son suficientemente confiables</li>
+</ul>
+<blockquote>
+<p>Deriva Semantica<br>
+Reginoes del espacio que no abarca</p>
+</blockquote>
+<p><strong>Aprendizaje Activo</strong><br>
+Agrega un oraculo, optimiza el esfuerzo humano</p>
+<blockquote></blockquote>
+<p><strong>Modelos Genrativos</strong><br>
+<strong>Modelos con Grafos</strong></p>
 <h1 id="día-mundial-del-correo">9/10 Día Mundial del Correo</h1>
 <h2 id="adquisicion-lexica">Adquisicion Lexica</h2>
 <p>Términos multipalabra – Capítulo 5 de Manning &amp; Schütze 1999</p>
@@ -208,7 +221,19 @@ Autoaprendizaje</p>
 <p><a href="https://drive.google.com/file/d/1yqtaKS3fPbg5wKMMRkRZpMHjuix6MAwx/view">CLASE</a></p>
 <h1 id="día-del-seguro">21/10 Día del Seguro</h1>
 <h2 id="sistemas-de-dialogo-y-reinforcement-learning">Sistemas de Dialogo y Reinforcement Learning</h2>
-<p><a href="https://drive.google.com/file/d/1Gq9Gm80yca75JlU6Q3czOt1xRh0PuqI0/view">CLASE.1</a></p>
+<p><a href="https://drive.google.com/file/d/1Gq9Gm80yca75JlU6Q3czOt1xRh0PuqI0/view">CLASE.1</a><br>
+<a href="https://en.wikipedia.org/wiki/Dialogue_system">Dialogue system</a><br>
+Ejemplos</p>
+<ul>
+<li>Dialogflow</li>
+<li>Rasa</li>
+<li>Botpress V12</li>
+</ul>
+<p><a href="https://en.wikipedia.org/wiki/Reinforcement_learning">Reinforcement Learning</a></p>
+<ul>
+<li>Señales que vas bien encaminado, recompensa</li>
+<li>Marlov Decision Porcces</li>
+</ul>
 <p><a href="https://drive.google.com/file/d/1iR6S-MVT2NZJdG2a4aGfxr-a72jl5ooG/view">CLASE.2</a></p>
 <h1 id="día-del-mol">23/10 Día del Mol</h1>
 <h2 id="sentiment-analysis-y-stance-detection">Sentiment analysis y Stance detection</h2>
